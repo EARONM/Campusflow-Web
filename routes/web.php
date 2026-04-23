@@ -40,3 +40,7 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+require __DIR__.'/statistics.php';
+require __DIR__.'/reports.php';
+require __DIR__.'/notifications.php';
+require __DIR__.'/database.php';
