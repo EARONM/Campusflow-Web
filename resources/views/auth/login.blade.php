@@ -1,47 +1,97 @@
 <x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
-
-    <form method="POST" action="{{ route('login') }}">
+    <form method="POST" action="{{ route('login') }}" class="w-full max-w-3xl">
         @csrf
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+        <div class="bg-white shadow-xl rounded-xl overflow-hidden">
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+            <!-- Top Banner -->
+            <div class="relative h-40">
+                <img src="{{ asset('assets/img/bsu-banner.jpg') }}"
+                     class="w-full h-full object-cover"
+                     alt="CampusFlow Banner">
 
-            <x-text-input id="password" class="block mt-1 w-full"
+                <div class="absolute inset-0 bg-white/40"></div>
+
+                <div class="absolute inset-0 flex items-center px-6 gap-4 justify-center">
+                    <img src="{{ asset('assets/img/bsu.png') }}"
+                         class="w-16 h-16 object-contain"
+                         alt="BSU Logo">
+
+                    <h1 class="text-5xl font-black tracking-wide text-center text-black">
+                        CAMPUSFLOW
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Login Body -->
+            <div class="px-8 py-10 flex justify-center">
+                <div class="w-full max-w-md">
+
+                    <h2 class="text-4xl font-bold text-center mb-8">
+                        Log-in
+                    </h2>
+
+                    <!-- Email -->
+                    <div class="mb-5">
+                        <label for="email" class="block text-lg font-semibold mb-2">
+                            Email
+                        </label>
+
+                        <input
+                            id="email"
+                            type="email"
+                            name="email"
+                            value="{{ old('email') }}"
+                            required
+                            autofocus
+                            placeholder="Enter University Email"
+                            class="w-full rounded-full border-0 bg-gray-200 px-5 py-3 text-gray-800 focus:ring-2 focus:ring-red-700"
+                        >
+
+                        <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-6">
+                        <label for="password" class="block text-lg font-semibold mb-2">
+                            Password
+                        </label>
+
+                        <input
+                            id="password"
                             type="password"
                             name="password"
-                            required autocomplete="current-password" />
+                            required
+                            placeholder="Enter Password"
+                            class="w-full rounded-full border-0 bg-gray-200 px-5 py-3 text-gray-800 focus:ring-2 focus:ring-red-700"
+                        >
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+                        <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                    </div>
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
-                <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
-            </label>
-        </div>
+                    <!-- Button -->
+                    <div class="text-center">
+                        <button
+                            type="submit"
+                            class="bg-green-500 hover:bg-green-600 text-white font-semibold px-12 py-3 rounded-full transition"
+                        >
+                            Sign-in
+                        </button>
+                    </div>
 
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
+                    <!-- Forgot Password -->
+                    @if (Route::has('password.request'))
+                        <div class="text-center mt-5">
+                            <a href="{{ route('password.request') }}"
+                               class="text-sm text-blue-700 underline hover:text-blue-900">
+                                Forgot Password?
+                            </a>
+                        </div>
+                    @endif
 
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
+                </div>
+            </div>
+
         </div>
     </form>
 </x-guest-layout>
