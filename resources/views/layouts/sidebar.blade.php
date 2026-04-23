@@ -24,22 +24,22 @@
             <span>Dashboard</span>
         </a>
 
-        <a href="#" class="flex items-center gap-3 text-gray-400 hover:text-white px-4 py-3 rounded-xl hover:bg-white/5 transition">
+        <a href="{{ route('statistics') }}" class="flex items-center gap-3 text-gray-400 hover:text-white px-4 py-3 rounded-xl hover:bg-white/5 transition">
             <i class="fa-solid fa-chart-column w-5 text-center"></i>
             <span>Statistics</span>
         </a>
 
-        <a href="#" class="flex items-center gap-3 text-gray-400 hover:text-white px-4 py-3 rounded-xl hover:bg-white/5 transition">
+        <a href="{{ route('reports') }}" class="flex items-center gap-3 text-gray-400 hover:text-white px-4 py-3 rounded-xl hover:bg-white/5 transition">
             <i class="fa-solid fa-file-lines w-5 text-center"></i>
             <span>Reports</span>
         </a>
 
-        <a href="#" class="flex items-center gap-3 text-gray-400 hover:text-white px-4 py-3 rounded-xl hover:bg-white/5 transition">
+        <a href="{{ route('notifications') }}" class="flex items-center gap-3 text-gray-400 hover:text-white px-4 py-3 rounded-xl hover:bg-white/5 transition">
             <i class="fa-solid fa-bell w-5 text-center"></i>
             <span>Notifications</span>
         </a>
 
-        <a href="#" class="flex items-center gap-3 text-gray-400 hover:text-white px-4 py-3 rounded-xl hover:bg-white/5 transition">
+        <a href="{{ route('database') }}" class="flex items-center gap-3 text-gray-400 hover:text-white px-4 py-3 rounded-xl hover:bg-white/5 transition">
             <i class="fa-solid fa-database w-5 text-center"></i>
             <span>Database</span>
         </a>
