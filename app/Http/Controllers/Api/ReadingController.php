@@ -15,11 +15,18 @@ class ReadingController extends Controller
 
     public function store(Request $request)
     {
-        $reading = Reading::create($request->all());
+        $data = $request->validate([
+            'module' => 'required|string',
+            'source_name' => 'required|string',
+            'reading' => 'required|numeric',
+            'remarks' => 'nullable|string',
+        ]);
+
+        $reading = Reading::create($data);
 
         return response()->json([
             'message' => 'Reading saved',
             'data' => $reading
-        ]);
+        ], 201);
     }
 }
