@@ -15,8 +15,14 @@ class ReadingController extends Controller
 
     public function store(Request $request)
     {
+        $request->merge([
+            'module' => strtolower($request->module),
+            'source_name' => $request->source_name ?? $request->source,
+            'reading' => $request->reading ?? $request->value,
+        ]);
+
         $data = $request->validate([
-            'module' => 'required|string',
+            'module' => 'required|string|in:water,electric,waste',
             'source_name' => 'required|string',
             'reading' => 'required|numeric',
             'remarks' => 'nullable|string',
@@ -25,7 +31,7 @@ class ReadingController extends Controller
         $reading = Reading::create($data);
 
         return response()->json([
-            'message' => 'Reading saved',
+            'message' => 'Reading saved successfully',
             'data' => $reading
         ], 201);
     }
