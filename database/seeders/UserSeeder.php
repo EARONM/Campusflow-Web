@@ -10,32 +10,44 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        User::create([
-            'name' => 'Super Admin',
-            'email' => 'superadmin@campusflow.com',
-            'role' => 'SuperAdmin',
-            'password' => Hash::make('password123'),
-        ]);
+        User::updateOrCreate(
+            ['email' => 'superadmin@campusflow.com'],
+            [
+                'name' => 'Super Admin',
+                'role' => 'Superadmin',
+                'campus' => 'All',
+                'password' => Hash::make('password123'),
+            ]
+        );
 
-        User::create([
-            'name' => 'Campus Admin',
-            'email' => 'admin@campusflow.com',
-            'role' => 'CampusAdmin',
-            'password' => Hash::make('password123'),
-        ]);
+        User::updateOrCreate(
+            ['email' => 'admin@campusflow.com'],
+            [
+                'name' => 'Campus Admin',
+                'role' => 'Admin',
+                'campus' => 'Main Campus',
+                'password' => Hash::make('password123'),
+            ]
+        );
 
-        User::create([
-            'name' => 'Staff User',
-            'email' => 'staff@campusflow.com',
-            'role' => 'Staff',
-            'password' => Hash::make('password123'),
-        ]);
+        User::updateOrCreate(
+            ['email' => 'staff@campusflow.com'],
+            [
+                'name' => 'Staff User',
+                'role' => 'Staff',
+                'campus' => 'Main Campus',
+                'password' => Hash::make('password123'),
+            ]
+        );
 
-        User::create([
-            'name' => 'Field Tech',
-            'email' => 'tech@campusflow.com',
-            'role' => 'FieldTechnician',
-            'password' => Hash::make('password123'),
-        ]);
+        User::updateOrCreate(
+            ['email' => 'tech@campusflow.com'],
+            [
+                'name' => 'Tech User',
+                'role' => 'Tech',
+                'campus' => 'Main Campus',
+                'password' => Hash::make('password123'),
+            ]
+        );
     }
 }
