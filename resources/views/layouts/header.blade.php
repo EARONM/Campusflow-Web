@@ -9,11 +9,11 @@ $title = match(true) {
 };
 @endphp
 
-<header class="fixed top-0 right-0 left-0 lg:left-72 h-16 bg-white border-b border-gray-200 z-50">
+<header id="mainHeader"
+class="fixed top-0 right-0 left-0 lg:left-72 h-16 bg-white border-b border-gray-200 z-50 transition-all duration-300">
 
     <div class="h-full px-6 flex items-center justify-between">
 
-        <!-- Left -->
         <div class="flex items-center gap-4">
 
             <button id="menuBtn" class="text-xl text-gray-700">
@@ -32,7 +32,6 @@ $title = match(true) {
 
         </div>
 
-        <!-- Right -->
         <div class="flex items-center gap-4">
 
             <button class="relative text-gray-500">

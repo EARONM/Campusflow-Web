@@ -14,23 +14,25 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="bg-[#f4f5f7]">
+<body class="bg-[#f4f5f7] overflow-x-hidden">
 
     @include('layouts.header')
     @include('layouts.sidebar')
 
-    <main class="pt-20 px-6 pb-6 :ml-72 transition-all duration-300">
-        {{ $slot }}
-    </main>
+    <main id="mainContent"
+        class="pt-20 px-6 pb-6 ml-0 lg:ml-72 transition-all duration-300 min-h-screen">
 
+        {{ $slot }}
+
+    </main>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
 
             const menuBtn = document.getElementById('menuBtn');
             const sidebar = document.getElementById('sidebar');
-            const main = document.querySelector('main');
-            const header = document.querySelector('header');
+            const main = document.getElementById('mainContent');
+            const header = document.getElementById('mainHeader');
 
             const texts = document.querySelectorAll('.sidebar-text');
             const links = document.querySelectorAll('.sidebar-link');
@@ -43,9 +45,14 @@
 
                 if (collapsed) {
 
-                    sidebar.classList.replace('w-72', 'w-20');
-                    main.classList.replace('lg:ml-72', 'lg:ml-20');
-                    header.classList.replace('lg:left-72', 'lg:left-20');
+                    sidebar.classList.remove('w-72');
+                    sidebar.classList.add('w-20');
+
+                    main.classList.remove('lg:ml-72');
+                    main.classList.add('lg:ml-20');
+
+                    header.classList.remove('lg:left-72');
+                    header.classList.add('lg:left-20');
 
                     texts.forEach(el => el.classList.add('hidden'));
 
@@ -56,9 +63,14 @@
 
                 } else {
 
-                    sidebar.classList.replace('w-20', 'w-72');
-                    main.classList.replace('lg:ml-20', 'lg:ml-72');
-                    header.classList.replace('lg:left-20', 'lg:left-72');
+                    sidebar.classList.remove('w-20');
+                    sidebar.classList.add('w-72');
+
+                    main.classList.remove('lg:ml-20');
+                    main.classList.add('lg:ml-72');
+
+                    header.classList.remove('lg:left-20');
+                    header.classList.add('lg:left-72');
 
                     texts.forEach(el => el.classList.remove('hidden'));
 
