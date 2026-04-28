@@ -16,8 +16,7 @@ $title = match(true) {
         <!-- Left -->
         <div class="flex items-center gap-4">
 
-            <button id="menuBtn"
-                    class="lg:hidden text-xl text-gray-700">
+            <button id="menuBtn" class="text-xl text-gray-700">
                 <i class="fa-solid fa-bars"></i>
             </button>
 
