@@ -10,42 +10,52 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        $credentials = $request->validate([
+        $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
 
-        if (Auth::attempt($credentials)) {
-
-            $user = Auth::user();
-
+        if (!Auth::attempt([
+            'email' => $request->email,
+            'password' => $request->password,
+        ])) {
             return response()->json([
-                'success' => true,
-                'name' => $user->name,
-                'email' => $user->email,
-                'role' => $user->role ?? 'User',
-            ]);
+                'message' => 'Invalid credentials'
+            ], 401);
         }
 
+        $user = Auth::user();
+
+        $user->tokens()->delete();
+
+        $token = $user
+            ->createToken('mobile')
+            ->plainTextToken;
+
         return response()->json([
-            'success' => false,
-            'message' => 'Invalid credentials'
-        ], 401);
+            'success' => true,
+            'token' => $token,
+            'name' => $user->name,
+            'email' => $user->email,
+            'role' => $user->role ?? 'User',
+        ]);
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user()
+            ->currentAccessToken()
+            ->delete();
+
+        return response()->json([
+            'message' => 'Logged out'
+        ]);
     }
 
     public function register(Request $request)
     {
         return response()->json([
             'message' => 'Register route working'
-        ]);
-    }
-
-    public function logout(Request $request)
-    {
-        Auth::logout();
-
-        return response()->json([
-            'message' => 'Logged out'
         ]);
     }
 }

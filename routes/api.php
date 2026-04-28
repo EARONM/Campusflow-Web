@@ -28,7 +28,7 @@ Route::get('/readings', [ReadingController::class, 'index']);
 Route::post('/readings', [ReadingController::class, 'store']);
 
 // protected routes
-Route::middleware('auth')->group(function () {
+Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout']);
 
@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/profile', [ProfileController::class, 'index']);
     Route::put('/profile', [ProfileController::class, 'update']);
+    Route::put('/change-password', [ProfileController::class, 'changePassword']);
 
     Route::put('/alerts/{id}/read', [AlertController::class, 'markAsRead']);
 });
