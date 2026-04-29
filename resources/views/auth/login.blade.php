@@ -80,24 +80,24 @@
                         </p>
                     </div>
 
-                    <!-- Email -->
+                    <!-- Username / Email -->
                     <div class="mb-5">
-                        <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">
-                            University Email
+                        <label for="login" class="block text-sm font-semibold text-gray-700 mb-2">
+                            Username or Email
                         </label>
 
                         <input
-                            id="email"
-                            type="email"
-                            name="email"
-                            value="{{ old('email') }}"
+                            id="login"
+                            type="text"
+                            name="login"
+                            value="{{ old('login') }}"
                             required
                             autofocus
-                            placeholder="Enter your email"
+                            placeholder="Enter username or email"
                             class="w-full h-12 rounded-xl border border-gray-300 px-4 text-gray-800 focus:border-red-600 focus:ring-2 focus:ring-red-200"
                         >
 
-                        <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('login')" class="mt-2" />
                     </div>
 
                     <!-- Password -->

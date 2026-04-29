@@ -7,7 +7,7 @@ transition-all duration-300 shadow-2xl flex flex-col overflow-hidden">
 
     <div class="h-16 px-6 border-b border-white/10 flex items-center gap-3">
 
-        <img src="{{ asset('assets/img/bsu.png') }}"
+        <img src="{{ asset('assets/img/cf-icon.png') }}"
              class="w-10 h-10 object-contain shrink-0">
 
         <h1 class="sidebar-text text-2xl font-bold tracking-tight whitespace-nowrap">

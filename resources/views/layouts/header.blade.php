@@ -26,10 +26,6 @@ class="fixed top-0 right-0 left-0 lg:left-72 h-16 bg-white border-b border-gray-
                 <h1 class="text-2xl font-bold text-gray-900">
                     {{ $title }}
                 </h1>
-
-                <p class="text-xs text-gray-500">
-                    CampusFlow Control Panel
-                </p>
             </div>
 
         </div>

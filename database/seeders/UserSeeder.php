@@ -23,6 +23,7 @@ class UserSeeder extends Seeder
             ['email' => 'superadmin@test.com'],
             [
                 'name' => 'Super Admin',
+                'username' => 'superadmin',
                 'role_id' => $superAdminRole?->id,
                 'campus_id' => null,
                 'password' => Hash::make('password'),
@@ -33,6 +34,7 @@ class UserSeeder extends Seeder
             ['email' => 'admin@test.com'],
             [
                 'name' => 'Campus Admin',
+                'username' => 'campusadmin',
                 'role_id' => $campusAdminRole?->id,
                 'campus_id' => $loboCampus?->id,
                 'password' => Hash::make('password'),
@@ -43,6 +45,7 @@ class UserSeeder extends Seeder
             ['email' => 'staff@test.com'],
             [
                 'name' => 'Staff User',
+                'username' => 'staff',
                 'role_id' => $staffRole?->id,
                 'campus_id' => $loboCampus?->id,
                 'password' => Hash::make('password'),
@@ -53,6 +56,7 @@ class UserSeeder extends Seeder
             ['email' => 'tech@test.com'],
             [
                 'name' => 'Field Technician',
+                'username' => 'tech',
                 'role_id' => $fieldTechRole?->id,
                 'campus_id' => $loboCampus?->id,
                 'password' => Hash::make('password'),

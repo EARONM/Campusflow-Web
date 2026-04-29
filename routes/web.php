@@ -24,7 +24,7 @@ Route::middleware('auth')->group(function () {
 
 
     // SuperAdmin + Admin only
-    Route::middleware('role:SuperAdmin,Admin')->group(function () {
+    Route::middleware('role:SuperAdmin,CampusAdmin')->group(function () {
 
         // Manage Users page
         Route::get('/users', [UserManagementController::class, 'index'])
