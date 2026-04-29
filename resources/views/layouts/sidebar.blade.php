@@ -43,16 +43,7 @@ transition-all duration-300 shadow-2xl flex flex-col overflow-hidden">
               : 'text-gray-400 hover:text-white hover:bg-white/5' }}">
             <i class="fa-solid fa-file-lines w-5 shrink-0"></i>
             <span class="sidebar-text">Reports</span>
-        </a>
-
-        <a href="{{ route('notifications') }}"
-           class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl transition
-           {{ request()->routeIs('notifications')
-              ? 'bg-red-500 text-white font-semibold'
-              : 'text-gray-400 hover:text-white hover:bg-white/5' }}">
-            <i class="fa-solid fa-bell w-5 shrink-0"></i>
-            <span class="sidebar-text">Notifications</span>
-        </a>
+        </a>    
 
         <a href="{{ route('database') }}"
            class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl transition
@@ -64,33 +55,5 @@ transition-all duration-300 shadow-2xl flex flex-col overflow-hidden">
         </a>
 
     </nav>
-
-    <div class="px-4 pb-5 space-y-2 border-t border-white/10 pt-4">
-
-        <a href="#"
-           class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition">
-            <i class="fa-solid fa-gear w-5 shrink-0"></i>
-            <span class="sidebar-text">Settings</span>
-        </a>
-
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-
-            <button type="submit"
-                class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition">
-
-                <i class="fa-solid fa-right-from-bracket w-5 shrink-0"></i>
-                <span class="sidebar-text">Log Out</span>
-
-            </button>
-        </form>
-
-        <a href="#"
-           class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition">
-            <i class="fa-solid fa-circle-question w-5 shrink-0"></i>
-            <span class="sidebar-text">Help</span>
-        </a>
-
-    </div>
-
+    
 </aside>

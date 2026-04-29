@@ -2,86 +2,156 @@
 
 <div class="grid grid-cols-12 gap-5 h-[calc(100vh-130px)]">
 
-    <!-- Left Main -->
-    <div class="col-span-9 grid grid-rows-[90px_1fr] gap-5">
+    <!-- Left Section -->
+    <div class="col-span-9 grid grid-rows-[100px_1fr] gap-5">
 
-        <!-- Compact KPI Cards -->
+        <!-- KPI Cards -->
         <div class="grid grid-cols-4 gap-5">
 
-            <div class="bg-white rounded-2xl shadow px-5 py-4 flex flex-col justify-center">
-                <p class="text-xs text-gray-500">Buildings</p>
-                <h2 class="text-3xl font-bold">24</h2>
+            <!-- Buildings -->
+            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm px-5 py-4 hover:shadow-md transition">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">
+                            Buildings
+                        </p>
+                        <h2 class="text-3xl font-bold text-gray-900 mt-1">
+                            24
+                        </h2>
+                    </div>
+
+                    <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-600">
+                        🏢
+                    </div>
+                </div>
             </div>
 
-            <div class="bg-white rounded-2xl shadow px-5 py-4 flex flex-col justify-center">
-                <p class="text-xs text-gray-500">Pending</p>
-                <h2 class="text-3xl font-bold text-red-600">08</h2>
+            <!-- Pending -->
+            <div class="bg-white rounded-2xl border border-red-100 shadow-sm px-5 py-4 hover:shadow-md transition">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">
+                            Pending
+                        </p>
+                        <h2 class="text-3xl font-bold text-red-600 mt-1">
+                            08
+                        </h2>
+                    </div>
+
+                    <div class="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center text-red-600">
+                        !
+                    </div>
+                </div>
             </div>
 
-            <div class="bg-white rounded-2xl shadow px-5 py-4 flex flex-col justify-center">
-                <p class="text-xs text-gray-500">Energy</p>
-                <h2 class="text-3xl font-bold text-lime-700">355</h2>
+            <!-- Energy -->
+            <div class="bg-white rounded-2xl border border-lime-100 shadow-sm px-5 py-4 hover:shadow-md transition">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">
+                            Energy
+                        </p>
+                        <h2 class="text-3xl font-bold text-lime-700 mt-1">
+                            355
+                        </h2>
+                    </div>
+
+                    <div class="w-10 h-10 rounded-xl bg-lime-50 flex items-center justify-center text-lime-700">
+                        ⚡
+                    </div>
+                </div>
             </div>
 
-            <div class="bg-white rounded-2xl shadow px-5 py-4 flex flex-col justify-center">
-                <p class="text-xs text-gray-500">Water</p>
-                <h2 class="text-3xl font-bold text-blue-600">200</h2>
+            <!-- Water -->
+            <div class="bg-white rounded-2xl border border-blue-100 shadow-sm px-5 py-4 hover:shadow-md transition">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">
+                            Water
+                        </p>
+                        <h2 class="text-3xl font-bold text-blue-600 mt-1">
+                            200
+                        </h2>
+                    </div>
+
+                    <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600">
+                        💧
+                    </div>
+                </div>
             </div>
 
         </div>
 
-        <!-- Bottom Left Content -->
+        <!-- Main Content -->
         <div class="grid grid-cols-12 gap-5 min-h-0">
 
             <!-- Chart -->
-            <div class="col-span-8 bg-white rounded-2xl shadow p-5 flex flex-col min-h-0">
+            <div class="col-span-8 bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col min-h-0">
 
                 <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-xl font-bold text-gray-800">
-                        Utilities Trend
-                    </h2>
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-900">
+                            Utilities Trend
+                        </h2>
+                        <p class="text-sm text-gray-500">
+                            Monthly utility consumption overview
+                        </p>
+                    </div>
 
-                    <select class="border rounded-lg px-3 py-1 text-sm">
+                    <select class="border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-0">
                         <option>Q1</option>
                         <option>Q2</option>
+                        <option>Q3</option>
                         <option>Year</option>
                     </select>
                 </div>
 
-                <div class="flex-1 rounded-xl border border-dashed border-gray-300 flex items-center justify-center text-gray-400">
-                    Chart Here
+                <div class="flex-1 rounded-2xl border border-dashed border-gray-300 bg-gray-50 flex items-center justify-center text-gray-400">
+                    Insert Chart.js Here
                 </div>
 
             </div>
 
             <!-- Reports -->
-            <div class="col-span-4 bg-white rounded-2xl shadow p-5 flex flex-col min-h-0">
+            <div class="col-span-4 bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col min-h-0">
 
                 <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-xl font-bold">
+                    <h2 class="text-xl font-bold text-gray-900">
                         Reports
                     </h2>
 
-                    <a href="#" class="text-sm text-red-700 font-semibold">
-                        View
+                    <a href="#" class="text-sm font-semibold text-red-600 hover:text-red-700">
+                        View All
                     </a>
                 </div>
 
-                <div class="space-y-4 text-sm overflow-y-auto">
+                <div class="space-y-4 overflow-y-auto text-sm">
 
-                    <div class="border-b pb-2">
-                        Broken Water Meter
-                        <div class="text-yellow-600 font-semibold">Pending</div>
+                    <div class="pb-3 border-b border-gray-100">
+                        <p class="font-medium text-gray-800">
+                            Broken Water Meter
+                        </p>
+                        <span class="inline-block mt-2 px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700">
+                            Pending
+                        </span>
                     </div>
 
-                    <div class="border-b pb-2">
-                        FE Expired
-                        <div class="text-red-600 font-semibold">Urgent</div>
+                    <div class="pb-3 border-b border-gray-100">
+                        <p class="font-medium text-gray-800">
+                            FE Expired
+                        </p>
+                        <span class="inline-block mt-2 px-2 py-1 text-xs rounded-full bg-red-100 text-red-700">
+                            Urgent
+                        </span>
                     </div>
 
                     <div>
-                        Electrical Spike
-                        <div class="text-blue-600 font-semibold">Review</div>
+                        <p class="font-medium text-gray-800">
+                            Electrical Spike
+                        </p>
+                        <span class="inline-block mt-2 px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-700">
+                            Review
+                        </span>
                     </div>
 
                 </div>
@@ -92,43 +162,83 @@
 
     </div>
 
-    <!-- Right Sidebar -->
-    <div class="col-span-3 grid grid-rows-[90px_160px_1fr] gap-5">
+    <!-- Right Section -->
+    <div class="col-span-3 grid grid-rows-[100px_170px_1fr] gap-5">
 
-        <!-- Campus -->
-        <div class="bg-white rounded-2xl shadow p-4 flex flex-col justify-center">
-            <p class="text-xs text-gray-500 mb-1">Campus</p>
+        <!-- Campus Filter -->
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 flex flex-col justify-center">
 
-            <select class="border rounded-lg px-3 py-2 text-sm">
+            <p class="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">
+                Campus
+            </p>
+
+            <select class="border border-gray-200 rounded-xl px-3 py-2 text-sm">
                 <option>All Campuses</option>
                 <option>Main</option>
                 <option>Alangilan</option>
             </select>
+
         </div>
 
         <!-- Alerts -->
-        <div class="bg-[#101a13] text-white rounded-2xl shadow p-5">
-            <h2 class="text-lg font-bold mb-3">Alerts</h2>
+        <div class="bg-gradient-to-br from-[#0d1a12] to-[#183322] text-white rounded-2xl shadow-sm p-5">
 
-            <div class="space-y-2 text-sm">
-                <div>3 FE expired</div>
-                <div>2 meters offline</div>
-                <div>5 pending tasks</div>
+            <h2 class="text-lg font-bold mb-4">
+                Alerts
+            </h2>
+
+            <div class="space-y-3 text-sm">
+
+                <div class="flex justify-between">
+                    <span>FE Expired</span>
+                    <span class="text-yellow-300">3</span>
+                </div>
+
+                <div class="flex justify-between">
+                    <span>Meters Offline</span>
+                    <span class="text-red-300">2</span>
+                </div>
+
+                <div class="flex justify-between">
+                    <span>Pending Tasks</span>
+                    <span class="text-blue-300">5</span>
+                </div>
+
             </div>
+
         </div>
 
         <!-- Activity -->
-        <div class="bg-white rounded-2xl shadow p-5 min-h-0 flex flex-col">
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 min-h-0 flex flex-col">
 
-            <h2 class="text-lg font-bold mb-3">
-                Activity
-            </h2>
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-lg font-bold text-gray-900">
+                    Activity
+                </h2>
 
-            <div class="space-y-3 text-sm text-gray-700 overflow-y-auto">
-                <div>Admin added report</div>
-                <div>Technician completed task</div>
-                <div>Campus Admin updated data</div>
-                <div>User logged in</div>
+                <a href="#" class="text-xs text-gray-500">
+                    Today
+                </a>
+            </div>
+
+            <div class="space-y-4 text-sm text-gray-700 overflow-y-auto">
+
+                <div class="border-l-2 border-green-500 pl-3">
+                    Admin added report
+                </div>
+
+                <div class="border-l-2 border-blue-500 pl-3">
+                    Technician completed task
+                </div>
+
+                <div class="border-l-2 border-yellow-500 pl-3">
+                    Campus Admin updated data
+                </div>
+
+                <div class="border-l-2 border-gray-400 pl-3">
+                    User logged in
+                </div>
+
             </div>
 
         </div>
