@@ -23,8 +23,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 
-    // Superadmin + Admin only
-    Route::middleware('role:Superadmin,Admin')->group(function () {
+    // SuperAdmin + Admin only
+    Route::middleware('role:SuperAdmin,Admin')->group(function () {
 
         // Manage Users page
         Route::get('/users', [UserManagementController::class, 'index'])

@@ -24,14 +24,14 @@
         <select name="role"
                 class="w-full border rounded-xl px-4 py-3">
 
-            @if(Auth::user()->role === 'Superadmin')
-                <option value="Superadmin"
-                    {{ $user->role == 'Superadmin' ? 'selected' : '' }}>
-                    Superadmin
+            @if(Auth::user()->role === 'SuperAdmin')
+                <option value="SuperAdmin"
+                    {{ $user->role == 'SuperAdmin' ? 'selected' : '' }}>
+                    SuperAdmin
                 </option>
 
                 <option value="Admin"
-                    {{ $user->role == 'Admin' ? 'selected' : '' }}>
+                    {{ $user->role == 'CampusAdmin' ? 'selected' : '' }}>
                     Admin
                 </option>
             @endif

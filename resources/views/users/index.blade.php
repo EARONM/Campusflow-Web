@@ -32,7 +32,7 @@
                     class="w-full border rounded-xl px-4 py-3"
                     required>
 
-                @if(Auth::user()->role === 'Superadmin')
+                @if(Auth::user()->role === 'SuperAdmin')
                     <option value="Admin">Admin</option>
                 @endif
 
