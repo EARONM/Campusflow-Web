@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('alerts', function (Blueprint $table) {
+        Schema::create('schedules', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('campus_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('building_id')->nullable()->constrained()->nullOnDelete();
             $table->string('title');
-            $table->text('message');
-            $table->string('type')->nullable(); // warning, critical, info
-            $table->boolean('is_read')->default(false);
+            $table->date('event_date');
+            $table->time('start_time')->nullable();
+            $table->time('end_time')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('alerts');
+        Schema::dropIfExists('schedules');
     }
 };

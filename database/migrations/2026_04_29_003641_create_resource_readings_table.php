@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('statuses', function (Blueprint $table) {
+        Schema::create('resource_readings', function (Blueprint $table) {
             $table->id();
-            $table->string('module'); // water, electric, waste
-            $table->string('source_name');
-            $table->string('status');
-            $table->text('remarks')->nullable();
+            $table->foreignId('resource_meter_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->decimal('reading_value', 12, 2);
+            $table->date('reading_date');
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('statuses');
+        Schema::dropIfExists('resource_readings');
     }
 };

@@ -48,7 +48,7 @@ class="fixed top-0 right-0 left-0 lg:left-72 h-16 bg-white border-b border-gray-
                 </p>
 
                 <span class="text-xs text-gray-500">
-                    {{ Auth::user()->role }}
+                    {{ Auth::user()->role->name ?? 'User' }}
                 </span>
             </div>
 
@@ -64,7 +64,7 @@ class="fixed top-0 right-0 left-0 lg:left-72 h-16 bg-white border-b border-gray-
                 <div id="profileMenu"
                     class="hidden absolute right-0 mt-3 w-56 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
 
-                    @if(in_array(Auth::user()->role, ['Superadmin', 'Admin']))
+                    @if(Auth::user()->role && in_array(Auth::user()->role->name, ['SuperAdmin', 'CampusAdmin']))
                         <a href="{{ route('users') }}"
                            class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 transition">
                             <i class="fa-solid fa-users w-4"></i>

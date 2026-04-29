@@ -25,8 +25,8 @@ class UserManagementController extends Controller
         ]);
 
         if (
-            auth()->user()->role === 'Admin' &&
-            in_array($request->role, ['Superadmin', 'Admin'])
+            auth()->user()->role === 'CampusAdmin' &&
+            in_array($request->role, ['SuperAdmin', 'CampusAdmin'])
         ) {
             abort(403);
         }
@@ -57,8 +57,8 @@ class UserManagementController extends Controller
         ]);
 
         if (
-            auth()->user()->role === 'Admin' &&
-            in_array($request->role, ['Admin', 'Superadmin'])
+            auth()->user()->role === 'CampusAdmin' &&
+            in_array($request->role, ['CampusAdmin', 'SuperAdmin'])
         ) {
             abort(403);
         }
