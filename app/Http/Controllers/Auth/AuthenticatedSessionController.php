@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,13 +21,32 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
-        $request->authenticate();
+        $request->validate([
+            'login' => ['required'],
+            'password' => ['required'],
+        ]);
 
-        $request->session()->regenerate();
+        $field = filter_var($request->login, FILTER_VALIDATE_EMAIL)
+            ? 'email'
+            : 'username';
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        if (Auth::attempt([
+            $field => $request->login,
+            'password' => $request->password,
+        ], $request->boolean('remember'))) {
+
+            $request->session()->regenerate();
+
+            return redirect()->intended(
+                route('dashboard', absolute: false)
+            );
+        }
+
+        return back()->withErrors([
+            'login' => 'Invalid credentials.',
+        ])->onlyInput('login');
     }
 
     /**

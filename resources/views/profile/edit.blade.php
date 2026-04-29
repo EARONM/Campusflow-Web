@@ -1,99 +1,64 @@
 <x-app-layout>
 
-<div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+<div class="max-w-2xl bg-white rounded-2xl shadow p-6">
 
-    <!-- Left Profile Summary -->
-    <div class="bg-white rounded-2xl shadow p-6">
+    <h2 class="text-2xl font-bold mb-6">Edit User</h2>
 
-        <div class="flex flex-col items-center text-center">
+    <form method="POST"
+          action="{{ route('users.update', $user->id) }}"
+          class="space-y-4">
 
-            <img src="{{ asset('assets/img/ken.png') }}"
-                 class="w-24 h-24 rounded-full object-cover border-4 border-red-100">
+        @csrf
+        @method('PATCH')
 
-            <h2 class="mt-4 text-xl font-bold text-gray-900">
-                {{ Auth::user()->name }}
-            </h2>
+        <input type="text"
+               name="name"
+               value="{{ $user->name }}"
+               class="w-full border rounded-xl px-4 py-3">
 
-            <p class="text-sm text-gray-500">
-                {{ Auth::user()->email }}
-            </p>
+        <input type="email"
+               name="email"
+               value="{{ $user->email }}"
+               class="w-full border rounded-xl px-4 py-3">
 
-            <span class="mt-3 px-3 py-1 bg-red-100 text-red-600 rounded-full text-xs font-semibold">
-                {{ Auth::user()->role }}
-            </span>
+        <select name="role_id"
+                class="w-full border rounded-xl px-4 py-3">
 
-        </div>
+            @foreach($roles as $role)
+                <option value="{{ $role->id }}"
+                    {{ $user->role_id == $role->id ? 'selected' : '' }}>
+                    {{ $role->name }}
+                </option>
+            @endforeach
 
-        <div class="mt-6 border-t pt-6 space-y-4">
+        </select>
 
-            <div>
-                <p class="text-xs text-gray-500">Campus</p>
-                <p class="font-semibold text-gray-800">
-                    {{ Auth::user()->campus ?? 'Not Assigned' }}
-                </p>
-            </div>
+        <select name="campus_id"
+                class="w-full border rounded-xl px-4 py-3">
 
-            <div>
-                <p class="text-xs text-gray-500">Account Status</p>
-                <p class="font-semibold text-green-600">
-                    Active
-                </p>
-            </div>
+            @foreach($campuses as $campus)
+                <option value="{{ $campus->id }}"
+                    {{ $user->campus_id == $campus->id ? 'selected' : '' }}>
+                    {{ $campus->name }}
+                </option>
+            @endforeach
 
-        </div>
+        </select>
 
-    </div>
+        <div class="flex gap-3">
 
+            <button class="px-6 py-3 bg-red-500 text-white rounded-xl">
+                Save Changes
+            </button>
 
-    <!-- Right Content -->
-    <div class="xl:col-span-2 space-y-6">
-
-        <!-- Profile Form -->
-        <div class="bg-white rounded-2xl shadow p-6">
-
-            <h2 class="text-xl font-bold text-gray-900 mb-1">
-                Account Information
-            </h2>
-
-            <p class="text-sm text-gray-500 mb-6">
-                Update your profile details.
-            </p>
-
-            @include('profile.partials.update-profile-information-form')
+            <a href="{{ route('users') }}"
+               class="px-6 py-3 bg-gray-200 rounded-xl">
+                Cancel
+            </a>
 
         </div>
 
-        <!-- Password -->
-        <div class="bg-white rounded-2xl shadow p-6">
-
-            <h2 class="text-xl font-bold text-gray-900 mb-1">
-                Security Settings
-            </h2>
-
-            <p class="text-sm text-gray-500 mb-6">
-                Change your password regularly to secure your account.
-            </p>
-
-            @include('profile.partials.update-password-form')
-
-        </div>
-
-        <!-- Danger -->
-        <div class="bg-white rounded-2xl shadow p-6 border border-red-200">
-
-            <h2 class="text-xl font-bold text-red-600 mb-1">
-                Danger Zone
-            </h2>
-
-            <p class="text-sm text-gray-500 mb-6">
-                Deleting your account is permanent and cannot be undone.
-            </p>
-
-            @include('profile.partials.delete-user-form')
-
-        </div>
-
-    </div>
+    </form>
 
 </div>
 
