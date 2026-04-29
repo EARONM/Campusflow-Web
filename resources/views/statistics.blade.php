@@ -1,182 +1,189 @@
 <x-app-layout>
 
-<div class="grid grid-cols-12 gap-6">
+<div class="grid grid-cols-12 gap-5 h-[calc(100vh-130px)]">
 
-    <!-- Left Section -->
-    <div class="col-span-9 space-y-6">
+    <!-- Left Main Section -->
+    <div class="col-span-9 grid grid-rows-[auto_1fr] gap-5">
 
-        <!-- Top KPI Cards -->
-        <div class="grid grid-cols-3 gap-4">
+        <!-- KPI Cards -->
+        <div class="grid grid-cols-3 gap-5">
 
             <!-- Electricity -->
-            <div class="bg-[#101a13] text-white rounded-2xl p-5 shadow">
-
-                <p class="text-sm opacity-80">
-                    Total Electricity
-                </p>
-
-                <div class="mt-4 flex items-center justify-between">
-
-                    <i class="fa-solid fa-bolt text-5xl"></i>
-
-                    <div class="text-right">
-                        <h2 class="text-5xl font-bold">1,420</h2>
-                        <p class="text-sm">kWh</p>
+            <div class="bg-gradient-to-br from-[#0d1a12] to-[#183322] text-white rounded-2xl border border-[#21392c] shadow-sm p-5">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs uppercase tracking-wide text-gray-300">
+                            Total Electricity
+                        </p>
+                        <p class="text-sm text-gray-400 mt-1">
+                            Quarter 1 Summary
+                        </p>
                     </div>
 
+                    <div class="w-11 h-11 rounded-xl bg-white/10 flex items-center justify-center">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
                 </div>
 
-                <p class="mt-4 text-sm opacity-80">
-                    Total of Quarter 1
-                </p>
-
+                <div class="mt-5 flex items-end justify-between">
+                    <h2 class="text-4xl font-bold">1,420</h2>
+                    <span class="text-sm text-gray-300 mb-1">kWh</span>
+                </div>
             </div>
 
             <!-- Water -->
-            <div class="bg-[#101a13] text-white rounded-2xl p-5 shadow">
-
-                <p class="text-sm opacity-80">
-                    Water Consumption
-                </p>
-
-                <div class="mt-4 flex items-center justify-between">
-
-                    <i class="fa-solid fa-droplet text-5xl"></i>
-
-                    <div class="text-right">
-                        <h2 class="text-5xl font-bold">235</h2>
-                        <p class="text-sm">m³</p>
+            <div class="bg-gradient-to-br from-[#0d1a12] to-[#183322] text-white rounded-2xl border border-[#21392c] shadow-sm p-5">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs uppercase tracking-wide text-gray-300">
+                            Water Usage
+                        </p>
+                        <p class="text-sm text-gray-400 mt-1">
+                            Jan - Mar Reading
+                        </p>
                     </div>
 
+                    <div class="w-11 h-11 rounded-xl bg-white/10 flex items-center justify-center">
+                        <i class="fa-solid fa-droplet"></i>
+                    </div>
                 </div>
 
-                <p class="mt-4 text-sm opacity-80">
-                    Measured from Jan - Mar
-                </p>
-
+                <div class="mt-5 flex items-end justify-between">
+                    <h2 class="text-4xl font-bold">235</h2>
+                    <span class="text-sm text-gray-300 mb-1">m³</span>
+                </div>
             </div>
 
             <!-- Average -->
-            <div class="bg-[#101a13] text-white rounded-2xl p-5 shadow">
-
-                <p class="text-sm opacity-80">
-                    Avg. Daily Usage
-                </p>
-
-                <div class="mt-4 flex items-center justify-between">
-
-                    <i class="fa-solid fa-arrow-trend-up text-5xl"></i>
-
-                    <div class="text-right">
-                        <h2 class="text-5xl font-bold">15.8</h2>
-                        <p class="text-sm">kWh</p>
+            <div class="bg-gradient-to-br from-[#0d1a12] to-[#183322] text-white rounded-2xl border border-[#21392c] shadow-sm p-5">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs uppercase tracking-wide text-gray-300">
+                            Avg Daily Usage
+                        </p>
+                        <p class="text-sm text-gray-400 mt-1">
+                            Campus Average
+                        </p>
                     </div>
 
+                    <div class="w-11 h-11 rounded-xl bg-white/10 flex items-center justify-center">
+                        <i class="fa-solid fa-arrow-trend-up"></i>
+                    </div>
                 </div>
 
-                <p class="mt-4 text-sm opacity-80">
-                    Campus-wide average
-                </p>
-
+                <div class="mt-5 flex items-end justify-between">
+                    <h2 class="text-4xl font-bold">15.8</h2>
+                    <span class="text-sm text-gray-300 mb-1">kWh</span>
+                </div>
             </div>
 
         </div>
 
-        <!-- Energy Chart -->
-        <div class="bg-white rounded-2xl shadow p-6">
+        <!-- Chart Section -->
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col min-h-0">
 
-            <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center justify-between mb-5">
 
-                <h2 class="text-4xl font-bold text-gray-800">
-                    Energy Consumption
-                </h2>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">
+                        Energy Consumption
+                    </h2>
 
-                <div class="text-sm text-gray-500 flex items-center gap-2">
-                    <span>Sort by</span>
-
-                    <span class="text-lime-700 font-semibold">
-                        Quarter 1
-                    </span>
-
-                    <i class="fa-solid fa-chevron-down text-xs text-lime-700"></i>
+                    <p class="text-sm text-gray-500">
+                        Utility trend across selected period
+                    </p>
                 </div>
 
+                <select class="border border-gray-200 rounded-xl px-3 py-2 text-sm">
+                    <option>Quarter 1</option>
+                    <option>Quarter 2</option>
+                    <option>Quarter 3</option>
+                    <option>Yearly</option>
+                </select>
+
             </div>
 
-            <!-- Chart -->
-            <div class="h-[420px] rounded-xl border border-gray-200 flex items-center justify-center text-gray-400">
-                Chart.js / ApexCharts Here
+            <div class="flex-1 rounded-2xl border border-dashed border-gray-300 bg-gray-50 flex items-center justify-center text-gray-400">
+                Insert Chart.js / ApexCharts Here
             </div>
 
-            <!-- Legend -->
-            <div class="mt-4 flex items-center gap-2 text-gray-700">
-
-                <i class="fa-solid fa-circle text-xs text-lime-700"></i>
-
+            <div class="mt-4 flex items-center gap-2 text-sm text-gray-700">
+                <span class="w-3 h-3 rounded-full bg-lime-700"></span>
                 <span>Electricity</span>
-
             </div>
 
         </div>
 
     </div>
 
-    <!-- Right Section -->
-    <div class="col-span-3 space-y-6">
+    <!-- Right Sidebar -->
+    <div class="col-span-3 grid grid-rows-[1fr_260px] gap-5">
 
         <!-- Alerts -->
-        <div class="bg-white rounded-2xl shadow p-6">
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
 
-            <h2 class="text-3xl font-bold text-[#334a2d] mb-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-5">
                 System Alerts
             </h2>
 
-            <div class="space-y-6 text-gray-700">
+            <div class="space-y-4 text-sm text-gray-700">
 
                 <div class="flex gap-3">
-                    <i class="fa-solid fa-triangle-exclamation text-red-600 text-2xl mt-1"></i>
-                    <span>High energy spike detected - CICS Bldg.</span>
+                    <div class="w-8 h-8 rounded-lg bg-red-100 text-red-600 flex items-center justify-center">
+                        <i class="fa-solid fa-triangle-exclamation text-xs"></i>
+                    </div>
+
+                    <div>
+                        High energy spike detected
+                        <p class="text-xs text-gray-500">CICS Building</p>
+                    </div>
                 </div>
 
                 <div class="flex gap-3">
-                    <i class="fa-solid fa-triangle-exclamation text-yellow-500 text-2xl mt-1"></i>
-                    <span>Water pump maintenance scheduled - July 2</span>
+                    <div class="w-8 h-8 rounded-lg bg-yellow-100 text-yellow-600 flex items-center justify-center">
+                        <i class="fa-solid fa-triangle-exclamation text-xs"></i>
+                    </div>
+
+                    <div>
+                        Water pump maintenance
+                        <p class="text-xs text-gray-500">July 2</p>
+                    </div>
                 </div>
 
                 <div class="flex gap-3">
-                    <i class="fa-solid fa-triangle-exclamation text-yellow-500 text-2xl mt-1"></i>
-                    <span>Backup generator test this week</span>
+                    <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center">
+                        <i class="fa-solid fa-circle-info text-xs"></i>
+                    </div>
+
+                    <div>
+                        Generator test this week
+                        <p class="text-xs text-gray-500">Scheduled Event</p>
+                    </div>
                 </div>
 
             </div>
 
         </div>
 
-        <!-- Top Building -->
-        <div class="bg-[#101a13] text-white rounded-2xl shadow p-6">
+        <!-- Top Consumer -->
+        <div class="bg-gradient-to-br from-[#0d1a12] to-[#183322] text-white rounded-2xl border border-[#21392c] shadow-sm p-5">
 
-            <h2 class="text-2xl font-bold leading-snug">
-                Top Energy-Consuming Buildings
-            </h2>
-
-            <p class="mt-6 text-4xl font-bold">
-                CEAFA Building
+            <p class="text-xs uppercase tracking-wide text-gray-300">
+                Top Consumer
             </p>
 
-            <div class="mt-6 flex items-end gap-2">
+            <h2 class="text-2xl font-bold mt-3">
+                CEAFA Building
+            </h2>
 
-                <h3 class="text-7xl font-bold">480</h3>
-
-                <span class="text-xl mb-2">kWh</span>
-
+            <div class="mt-8 flex items-end gap-2">
+                <h3 class="text-6xl font-bold">480</h3>
+                <span class="mb-2 text-sm text-gray-300">kWh</span>
             </div>
 
-            <div class="mt-6 flex items-center gap-2 text-sm">
-
-                <i class="fa-solid fa-play text-xs"></i>
-
-                <span>Quarter 1</span>
-
+            <div class="mt-5 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs">
+                <i class="fa-solid fa-play text-[10px]"></i>
+                Quarter 1
             </div>
 
         </div>
