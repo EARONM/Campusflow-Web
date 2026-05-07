@@ -20,6 +20,10 @@ return Application::configure(
 
             $middleware->statefulApi();
 
+            $middleware->validateCsrfTokens(except: [
+                'api/*',
+            ]);
+
             $middleware->alias([
                 'role' =>
                     \App\Http\Middleware\RoleMiddleware::class,

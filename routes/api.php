@@ -25,12 +25,17 @@ Route::get('/status', [StatusController::class, 'index']);
 Route::get('/alerts', [AlertController::class, 'index']);
 Route::get('/history', [HistoryController::class, 'index']);
 Route::get('/readings', [ReadingController::class, 'index']);
-Route::post('/readings', [ReadingController::class, 'store']);
+
+Route::get(
+    '/resource-meters',
+    [ReadingController::class, 'meters']
+);
 
 // protected routes
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/readings', [ReadingController::class, 'store']);
 
     Route::get('/user', function (Request $request) {
         return $request->user();
