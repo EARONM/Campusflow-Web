@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserManagementController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\CampusController;
+use App\Http\Controllers\Admin\ResourceMeterController;
 
 Route::get('/', function () {
     return auth()->check()
@@ -32,15 +34,27 @@ Route::middleware('auth')->group(function () {
 
         // Create user
         Route::post('/users', [UserManagementController::class, 'store'])
-            ->name('users.store');
+        ->name('users.store');
 
         // Edit user
-            Route::get('/users/{user}/edit', [UserManagementController::class, 'edit'])
-            ->name('users.edit');
+        Route::get('/users/{user}/edit', [UserManagementController::class, 'edit'])
+        ->name('users.edit');
 
         // Update user
-            Route::patch('/users/{user}', [UserManagementController::class, 'update'])
-            ->name('users.update');
+        Route::patch('/users/{user}', [UserManagementController::class, 'update'])
+        ->name('users.update');
+
+        // Campus CRUD
+        Route::resource(
+            'campuses',
+            CampusController::class
+        );
+
+        // Resource Meter CRUD
+        Route::resource(
+            'resource-meters',
+            ResourceMeterController::class
+        );
 
     });
 
