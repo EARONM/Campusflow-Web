@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\AlertController;
 use App\Http\Controllers\Api\HistoryController;
 use App\Http\Controllers\Api\StatusController;
 use App\Http\Controllers\Api\ReadingController;
+use App\Http\Controllers\Admin\ResourceMeterController;
 
 // test
 Route::get('/test', function () {
