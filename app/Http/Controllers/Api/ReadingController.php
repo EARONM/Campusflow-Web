@@ -38,16 +38,42 @@ class ReadingController extends Controller
         ], 201);
     }
 
-    public function meters()
+    public function meters(Request $request)
     {
+        $type = strtolower(
+            $request->type
+        );
+
+        $meters = \App\Models\ResourceMeter::query()
+
+            ->when($type, function (
+                $query
+            ) use ($type) {
+
+                $query->whereHas(
+                    'resourceType',
+                    function ($q) use ($type) {
+
+                        $q->whereRaw(
+                            'LOWER(name) = ?',
+                            [$type]
+                        );
+                    }
+                );
+            })
+
+            ->select(
+                'id',
+                'meter_code',
+                'location'
+            )
+
+            ->orderBy('location')
+
+            ->get();
+
         return response()->json(
-            DB::table('resource_meters')
-                ->select(
-                    'id',
-                    'meter_code',
-                    'location'
-                )
-                ->get()
+            $meters
         );
     }
 
