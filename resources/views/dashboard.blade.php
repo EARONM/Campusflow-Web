@@ -16,7 +16,7 @@
                             Buildings
                         </p>
                         <h2 class="text-3xl font-bold text-gray-900 mt-1">
-                            24
+                            {{ $totalBuildings }}
                         </h2>
                     </div>
 
@@ -34,7 +34,7 @@
                             Pending
                         </p>
                         <h2 class="text-3xl font-bold text-red-600 mt-1">
-                            08
+                            {{ $totalCampuses }}
                         </h2>
                     </div>
 
@@ -52,7 +52,7 @@
                             Energy
                         </p>
                         <h2 class="text-3xl font-bold text-lime-700 mt-1">
-                            355
+                            {{ $totalMeters }}
                         </h2>
                     </div>
 
@@ -70,7 +70,7 @@
                             Water
                         </p>
                         <h2 class="text-3xl font-bold text-blue-600 mt-1">
-                            200
+                            {{ $totalUsers }}
                         </h2>
                     </div>
 
@@ -106,8 +106,8 @@
                     </select>
                 </div>
 
-                <div class="flex-1 rounded-2xl border border-dashed border-gray-300 bg-gray-50 flex items-center justify-center text-gray-400">
-                    Insert Chart.js Here
+                <div class="flex-1 rounded-2xl border border-dashed border-gray-300 bg-gray-50 p-4 relative min-h-[350px]">
+                    <canvas id="waterChart"></canvas>
                 </div>
 
             </div>
@@ -209,42 +209,113 @@
         </div>
 
         <!-- Activity -->
-        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 min-h-0 flex flex-col">
+        <div class="space-y-4 text-sm text-gray-700 overflow-y-auto">
 
-            <div class="flex items-center justify-between mb-4">
-                <h2 class="text-lg font-bold text-gray-900">
-                    Activity
-                </h2>
+            @forelse($latestReadings as $reading)
 
-                <a href="#" class="text-xs text-gray-500">
-                    Today
-                </a>
-            </div>
+            <div class="border-l-2 border-green-500 pl-3">
 
-            <div class="space-y-4 text-sm text-gray-700 overflow-y-auto">
+                <p class="font-semibold">
 
-                <div class="border-l-2 border-green-500 pl-3">
-                    Admin added report
-                </div>
+                    {{ $reading->meter->meter_code ?? '-' }}
 
-                <div class="border-l-2 border-blue-500 pl-3">
-                    Technician completed task
-                </div>
+                </p>
 
-                <div class="border-l-2 border-yellow-500 pl-3">
-                    Campus Admin updated data
-                </div>
+                <p class="text-xs text-gray-500">
 
-                <div class="border-l-2 border-gray-400 pl-3">
-                    User logged in
-                </div>
+                    {{ $reading->meter->resourceType->name ?? '-' }}
+
+                    •
+
+                    {{ $reading->reading_value }}
+
+                </p>
+
+                <p class="text-xs text-gray-400 mt-1">
+
+                    {{ $reading->created_at->diffForHumans() }}
+
+                </p>
 
             </div>
+
+            @empty
+
+            <div class="text-gray-400 text-sm">
+
+                No recent activity
+
+            </div>
+
+            @endforelse
+
+        </div>
 
         </div>
 
     </div>
 
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const ctx =
+    document.getElementById(
+        'waterChart'
+    );
+
+new Chart(ctx, {
+
+    type: 'line',
+
+    data: {
+
+        labels: @json($chartLabels),
+
+        datasets: [
+
+            {
+
+                label: 'Water',
+
+                data: @json($waterChartData),
+
+                borderWidth: 2,
+                tension: 0.4,
+            },
+
+            {
+
+                label: 'Electric',
+
+                data: @json($electricChartData),
+
+                borderWidth: 2,
+                tension: 0.4,
+            },
+
+            {
+
+                label: 'Waste',
+
+                data: @json($wasteChartData),
+
+                borderWidth: 2,
+                tension: 0.4,
+            }
+        ]
+    },
+
+    options: {
+
+        responsive: true,
+
+        maintainAspectRatio: false,
+    }
+});
+
+</script>
 
 </x-app-layout>
