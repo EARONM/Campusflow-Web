@@ -1,11 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DatabaseController;
+
 
 Route::middleware(['auth'])->group(function () {
 
-    Route::get('/database', function () {
-        return view('database');
-    })->name('database');
+    Route::get(
+        '/database',
+        [DatabaseController::class, 'index']
+    )->name('database');
 
 });

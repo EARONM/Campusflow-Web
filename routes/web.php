@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserManagementController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CampusController;
 use App\Http\Controllers\Admin\ResourceMeterController;
 use App\Http\Controllers\Admin\BuildingController;
