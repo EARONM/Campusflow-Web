@@ -33,9 +33,12 @@ class CampusController extends Controller
             'name' => $request->name,
         ]);
 
-        return redirect()
-            ->route('campuses.index')
-            ->with('success', 'Campus created');
+        return redirect(
+            '/database?section=campuses'
+        )->with(
+            'success',
+            'Campus created successfully.'
+        );
     }
 
     public function edit(Campus $campus)
@@ -58,16 +61,24 @@ class CampusController extends Controller
             'name' => $request->name,
         ]);
 
-        return redirect()
-            ->route('campuses.index')
-            ->with('success', 'Campus updated');
+        return redirect(
+            '/database?section=campuses'
+        )->with(
+            'success',
+            'Campus updated successfully.'
+        );
     }
 
     public function destroy(Campus $campus)
     {
         $campus->delete();
 
-        return back()
-            ->with('success', 'Campus deleted');
+        return redirect(
+            '/database?section=campuses'
+        )->with(
+            'success',
+            'Campus deleted successfully.'
+        );
     }
+    
 }

@@ -77,4 +77,62 @@ class ResourceMeterController extends Controller
                 'Meter created successfully.'
             );
     }
+
+    public function update(
+        Request $request,
+        ResourceMeter $resourceMeter
+    ) 
+    {
+        $request->validate([
+
+            'building_id' =>
+                'required|exists:buildings,id',
+
+            'resource_type_id' =>
+                'required|exists:resource_types,id',
+
+            'meter_code' =>
+                'required|string|max:255',
+
+            'location' =>
+                'required|string|max:255',
+        ]);
+
+        $resourceMeter->update([
+
+            'building_id' =>
+                $request->building_id,
+
+            'resource_type_id' =>
+                $request->resource_type_id,
+
+            'meter_code' =>
+                $request->meter_code,
+
+            'location' =>
+                $request->location,
+        ]);
+
+        return redirect()
+            ->route('resource-meters.index')
+            ->with(
+                'success',
+                'Meter updated successfully.'
+            );
+    }
+
+    public function destroy(
+        ResourceMeter $resourceMeter
+    ) 
+    {
+        $resourceMeter->delete();
+
+        return redirect()
+            ->route('resource-meters.index')
+            ->with(
+                'success',
+                'Meter deleted successfully.'
+            );
+    }
+
 }
