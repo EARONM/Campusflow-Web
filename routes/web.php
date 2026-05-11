@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\CampusController;
 use App\Http\Controllers\Admin\ResourceMeterController;
 use App\Http\Controllers\Admin\BuildingController;
 use App\Http\Controllers\Admin\ResourceTypeController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return auth()->check()
@@ -14,9 +15,13 @@ Route::get('/', function () {
         : redirect()->route('login');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get(
+    '/dashboard',
+    [DashboardController::class, 'index']
+)->middleware([
+    'auth',
+    'verified'
+])->name('dashboard');
 
 
 Route::middleware('auth')->group(function () {

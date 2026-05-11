@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Building;
+use App\Models\Reading;
 
 class ResourceMeter extends Model
 {
@@ -26,6 +27,14 @@ class ResourceMeter extends Model
         return $this->belongsTo(
             ResourceType::class,
             'resource_type_id'
+        );
+    }
+
+    public function readings()
+    {
+        return $this->hasMany(
+            Reading::class,
+            'resource_meter_id'
         );
     }
 }

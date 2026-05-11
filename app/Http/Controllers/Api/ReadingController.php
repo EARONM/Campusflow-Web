@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Reading;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\ResourceMeter;
 
 class ReadingController extends Controller
 {
@@ -40,20 +41,37 @@ class ReadingController extends Controller
 
     public function meters(Request $request)
     {
-        $type = $request->type;
+        $type = strtolower(
+            $request->type
+        );
+
+        $typeMap = [
+
+            'water' =>
+                'Water',
+
+            'electricity' =>
+                'Electric',
+
+            'waste' =>
+                'Waste',
+        ];
+
+        $resourceType =
+            $typeMap[$type] ?? null;
 
         $query = ResourceMeter::query();
 
         // filter by resource type
-        if ($type) {
+        if ($resourceType) {
 
             $query->whereHas(
                 'resourceType',
-                function ($q) use ($type) {
+                function ($q) use ($resourceType) {
 
-                    $q->whereRaw(
-                        'LOWER(name) = ?',
-                        [strtolower($type)]
+                    $q->where(
+                        'name',
+                        $resourceType
                     );
                 }
             );
