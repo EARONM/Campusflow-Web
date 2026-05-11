@@ -5,6 +5,8 @@ use App\Http\Controllers\UserManagementController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CampusController;
 use App\Http\Controllers\Admin\ResourceMeterController;
+use App\Http\Controllers\Admin\BuildingController;
+use App\Http\Controllers\Admin\ResourceTypeController;
 
 Route::get('/', function () {
     return auth()->check()
@@ -54,6 +56,18 @@ Route::middleware('auth')->group(function () {
         Route::resource(
             'resource-meters',
             ResourceMeterController::class
+        );
+
+        // Building CRUD
+        Route::resource(
+            'buildings',
+            BuildingController::class
+        );
+
+        // Resource Type CRUD
+        Route::resource(
+            'resource-types',
+            ResourceTypeController::class
         );
 
     });

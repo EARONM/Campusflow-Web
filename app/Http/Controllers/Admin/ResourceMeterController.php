@@ -4,46 +4,77 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\ResourceMeter;
+use App\Models\ResourceType;
+use App\Models\Building;
 use Illuminate\Http\Request;
 
 class ResourceMeterController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $type = strtolower(
-            $request->type
+        $meters = ResourceMeter::with([
+            'building',
+            'resourceType',
+        ])->latest()->get();
+
+        return view(
+            'admin.resource-meters.index',
+            compact('meters')
         );
+    }
 
-        $meters = ResourceMeter::query()
+    public function create()
+    {
+        $buildings = Building::all();
 
-            ->when($type, function (
-                $query
-            ) use ($type) {
+        $types = ResourceType::all();
 
-                $query->whereHas(
-                    'resourceType',
-                    function ($q) use ($type) {
-
-                        $q->whereRaw(
-                            'LOWER(name) = ?',
-                            [$type]
-                        );
-                    }
-                );
-            })
-
-            ->select(
-                'id',
-                'meter_code',
-                'location'
+        return view(
+            'admin.resource-meters.create',
+            compact(
+                'buildings',
+                'types'
             )
-
-            ->orderBy('location')
-
-            ->get();
-
-        return response()->json(
-            $meters
         );
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+
+            'building_id' =>
+                'required|exists:buildings,id',
+
+            'resource_type_id' =>
+                'required|exists:resource_types,id',
+
+            'meter_code' =>
+                'required|string|max:255',
+
+            'location' =>
+                'required|string|max:255',
+        ]);
+
+        ResourceMeter::create([
+
+            'building_id' =>
+                $request->building_id,
+
+            'resource_type_id' =>
+                $request->resource_type_id,
+
+            'meter_code' =>
+                $request->meter_code,
+
+            'location' =>
+                $request->location,
+        ]);
+
+        return redirect()
+            ->route('resource-meters.index')
+            ->with(
+                'success',
+                'Meter created successfully.'
+            );
     }
 }
