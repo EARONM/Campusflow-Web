@@ -44,4 +44,44 @@ class ResourceTypeController extends Controller
                 'Resource type created.'
             );
     }
+
+    public function update(
+        Request $request,
+        ResourceType $resourceType
+    )
+    {
+        $request->validate([
+
+            'name' =>
+                'required|string|max:255',
+        ]);
+
+        $resourceType->update([
+
+            'name' =>
+                $request->name,
+        ]);
+
+        return redirect(
+            '/database?section=resource-types'
+        )->with(
+            'success',
+            'Resource type updated successfully.'
+        );
+    }
+
+    public function destroy(
+        ResourceType $resourceType
+    )
+    {
+        $resourceType->delete();
+
+        return redirect(
+            '/database?section=resource-types'
+        )->with(
+            'success',
+            'Resource type deleted successfully.'
+        );
+    }
+
 }

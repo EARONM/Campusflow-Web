@@ -58,4 +58,50 @@ class BuildingController extends Controller
                 'Building created successfully.'
             );
     }
+
+    public function update(
+        Request $request,
+        Building $building
+    )
+    {
+        $request->validate([
+
+            'name' =>
+                'required|string|max:255',
+
+            'campus_id' =>
+                'required|exists:campuses,id',
+        ]);
+
+        $building->update([
+
+            'name' =>
+                $request->name,
+
+            'campus_id' =>
+                $request->campus_id,
+        ]);
+
+        return redirect(
+            '/database?section=buildings'
+        )->with(
+            'success',
+            'Building updated successfully.'
+        );
+    }
+
+    public function destroy(
+        Building $building
+    )
+    {
+        $building->delete();
+
+        return redirect(
+            '/database?section=buildings'
+        )->with(
+            'success',
+            'Building deleted successfully.'
+        );
+    }
+
 }

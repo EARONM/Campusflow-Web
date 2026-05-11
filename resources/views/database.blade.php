@@ -192,18 +192,32 @@
                 <div class="flex gap-2">
 
                     <button
+                        onclick="openEditCampusModal(
+                            '{{ $campus->id }}',
+                            '{{ $campus->name }}'
+                        )"
                         class="px-4 py-1 rounded-lg border">
 
                         Edit
 
                     </button>
 
-                    <button
-                        class="px-4 py-1 rounded-lg bg-red-500 text-white">
+                    <form
+                        method="POST"
+                        action="{{ route('campuses.destroy', $campus) }}"
+                        onsubmit="return confirm('Delete this campus?')">
 
-                        Delete
+                        @csrf
+                        @method('DELETE')
 
-                    </button>
+                        <button
+                            class="px-4 py-1 rounded-lg bg-red-500 text-white">
+
+                            Delete
+
+                        </button>
+
+                    </form>
 
                 </div>
 
@@ -243,18 +257,33 @@
                 <div class="flex gap-2">
 
                     <button
+                        onclick="openEditBuildingModal(
+                            '{{ $building->id }}',
+                            '{{ $building->name }}',
+                            '{{ $building->campus_id }}'
+                        )"
                         class="px-4 py-1 rounded-lg border">
 
                         Edit
 
                     </button>
 
-                    <button
-                        class="px-4 py-1 rounded-lg bg-red-500 text-white">
+                    <form
+                        method="POST"
+                        action="{{ route('buildings.destroy', $building) }}"
+                        onsubmit="return confirm('Delete this building?')">
 
-                        Delete
+                        @csrf
+                        @method('DELETE')
 
-                    </button>
+                        <button
+                            class="px-4 py-1 rounded-lg bg-red-500 text-white">
+
+                            Delete
+
+                        </button>
+
+                    </form>
 
                 </div>
 
@@ -289,18 +318,32 @@
                 <div class="flex gap-2">
 
                     <button
+                        onclick="openEditResourceTypeModal(
+                            '{{ $type->id }}',
+                            '{{ $type->name }}'
+                        )"
                         class="px-4 py-1 rounded-lg border">
 
                         Edit
 
                     </button>
 
-                    <button
-                        class="px-4 py-1 rounded-lg bg-red-500 text-white">
+                    <form
+                        method="POST"
+                        action="{{ route('resource-types.destroy', $type) }}"
+                        onsubmit="return confirm('Delete this resource type?')">
 
-                        Delete
+                        @csrf
+                        @method('DELETE')
 
-                    </button>
+                        <button
+                            class="px-4 py-1 rounded-lg bg-red-500 text-white">
+
+                            Delete
+
+                        </button>
+
+                    </form>
 
                 </div>
 
@@ -350,18 +393,35 @@
                 <div class="flex gap-2">
 
                     <button
+                        onclick="openEditMeterModal(
+                            '{{ $meter->id }}',
+                            '{{ $meter->meter_code }}',
+                            '{{ $meter->location }}',
+                            '{{ $meter->building_id }}',
+                            '{{ $meter->resource_type_id }}'
+                        )"
                         class="px-4 py-1 rounded-lg border">
 
                         Edit
 
                     </button>
 
-                    <button
-                        class="px-4 py-1 rounded-lg bg-red-500 text-white">
+                    <form
+                        method="POST"
+                        action="{{ route('resource-meters.destroy', $meter) }}"
+                        onsubmit="return confirm('Delete this meter?')">
 
-                        Delete
+                        @csrf
+                        @method('DELETE')
 
-                    </button>
+                        <button
+                            class="px-4 py-1 rounded-lg bg-red-500 text-white">
+
+                            Delete
+
+                        </button>
+
+                    </form>
 
                 </div>
 
@@ -370,6 +430,569 @@
             @endforeach
 
         </div>
+
+    </div>
+
+</div>
+
+<!-- Campus Modal -->
+<div
+    id="campus-modal"
+    class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+
+    <div class="bg-white rounded-2xl w-full max-w-md p-6">
+
+        <div class="flex items-center justify-between mb-5">
+
+            <h2 class="text-xl font-bold">
+
+                Add Campus
+
+            </h2>
+
+            <button
+                onclick="closeCampusModal()"
+                class="text-2xl text-gray-500">
+
+                &times;
+
+            </button>
+
+        </div>
+
+        <form
+            method="POST"
+            action="{{ route('campuses.store') }}">
+
+            @csrf
+
+            <div class="space-y-4">
+
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="Campus Name"
+                    class="w-full border rounded-xl px-4 py-3"
+                    required>
+
+                <button
+                    class="w-full bg-red-500 text-white py-3 rounded-xl">
+
+                    Save Campus
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- Edit Campus Modal -->
+<div
+    id="edit-campus-modal"
+    class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+
+    <div class="bg-white rounded-2xl w-full max-w-md p-6">
+
+        <div class="flex items-center justify-between mb-5">
+
+            <h2 class="text-xl font-bold">
+
+                Edit Campus
+
+            </h2>
+
+            <button
+                onclick="closeEditCampusModal()"
+                class="text-2xl text-gray-500">
+
+                &times;
+
+            </button>
+
+        </div>
+
+        <form
+            method="POST"
+            id="edit-campus-form">
+
+            @csrf
+            @method('PUT')
+
+            <div class="space-y-4">
+
+                <input
+                    type="text"
+                    name="name"
+                    id="edit-campus-name"
+                    class="w-full border rounded-xl px-4 py-3"
+                    required>
+
+                <button
+                    class="w-full bg-red-500 text-white py-3 rounded-xl">
+
+                    Update Campus
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- Building Modal -->
+<div
+    id="building-modal"
+    class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+
+    <div class="bg-white rounded-2xl w-full max-w-md p-6">
+
+        <div class="flex items-center justify-between mb-5">
+
+            <h2 class="text-xl font-bold">
+
+                Add Building
+
+            </h2>
+
+            <button
+                onclick="closeBuildingModal()"
+                class="text-2xl text-gray-500">
+
+                &times;
+
+            </button>
+
+        </div>
+
+        <form
+            method="POST"
+            action="{{ route('buildings.store') }}">
+
+            @csrf
+
+            <div class="space-y-4">
+
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="Building Name"
+                    class="w-full border rounded-xl px-4 py-3"
+                    required>
+
+                <select
+                    name="campus_id"
+                    class="w-full border rounded-xl px-4 py-3"
+                    required>
+
+                    <option value="">
+                        Select Campus
+                    </option>
+
+                    @foreach($campuses as $campus)
+
+                    <option value="{{ $campus->id }}">
+                        {{ $campus->name }}
+                    </option>
+
+                    @endforeach
+
+                </select>
+
+                <button
+                    class="w-full bg-red-500 text-white py-3 rounded-xl">
+
+                    Save Building
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- Edit Building Modal -->
+<div
+    id="edit-building-modal"
+    class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+
+    <div class="bg-white rounded-2xl w-full max-w-md p-6">
+
+        <div class="flex items-center justify-between mb-5">
+
+            <h2 class="text-xl font-bold">
+
+                Edit Building
+
+            </h2>
+
+            <button
+                onclick="closeEditBuildingModal()"
+                class="text-2xl text-gray-500">
+
+                &times;
+
+            </button>
+
+        </div>
+
+        <form
+            method="POST"
+            id="edit-building-form">
+
+            @csrf
+            @method('PUT')
+
+            <div class="space-y-4">
+
+                <input
+                    type="text"
+                    name="name"
+                    id="edit-building-name"
+                    class="w-full border rounded-xl px-4 py-3"
+                    required>
+
+                <select
+                    name="campus_id"
+                    id="edit-building-campus"
+                    class="w-full border rounded-xl px-4 py-3"
+                    required>
+
+                    @foreach($campuses as $campus)
+
+                    <option value="{{ $campus->id }}">
+                        {{ $campus->name }}
+                    </option>
+
+                    @endforeach
+
+                </select>
+
+                <button
+                    class="w-full bg-red-500 text-white py-3 rounded-xl">
+
+                    Update Building
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- Resource Type Modal -->
+<div
+    id="resource-type-modal"
+    class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+
+    <div class="bg-white rounded-2xl w-full max-w-md p-6">
+
+        <div class="flex items-center justify-between mb-5">
+
+            <h2 class="text-xl font-bold">
+
+                Add Resource Type
+
+            </h2>
+
+            <button
+                onclick="closeResourceTypeModal()"
+                class="text-2xl text-gray-500">
+
+                &times;
+
+            </button>
+
+        </div>
+
+        <form
+            method="POST"
+            action="{{ route('resource-types.store') }}">
+
+            @csrf
+
+            <div class="space-y-4">
+
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="Resource Type"
+                    class="w-full border rounded-xl px-4 py-3"
+                    required>
+
+                <button
+                    class="w-full bg-red-500 text-white py-3 rounded-xl">
+
+                    Save Resource Type
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- Edit Resource Type Modal -->
+<div
+    id="edit-resource-type-modal"
+    class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+
+    <div class="bg-white rounded-2xl w-full max-w-md p-6">
+
+        <div class="flex items-center justify-between mb-5">
+
+            <h2 class="text-xl font-bold">
+
+                Edit Resource Type
+
+            </h2>
+
+            <button
+                onclick="closeEditResourceTypeModal()"
+                class="text-2xl text-gray-500">
+
+                &times;
+
+            </button>
+
+        </div>
+
+        <form
+            method="POST"
+            id="edit-resource-type-form">
+
+            @csrf
+            @method('PUT')
+
+            <div class="space-y-4">
+
+                <input
+                    type="text"
+                    name="name"
+                    id="edit-resource-type-name"
+                    class="w-full border rounded-xl px-4 py-3"
+                    required>
+
+                <button
+                    class="w-full bg-red-500 text-white py-3 rounded-xl">
+
+                    Update Resource Type
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- Resource Meter Modal -->
+<div
+    id="meter-modal"
+    class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+
+    <div class="bg-white rounded-2xl w-full max-w-lg p-6">
+
+        <div class="flex items-center justify-between mb-5">
+
+            <h2 class="text-xl font-bold">
+
+                Add Resource Meter
+
+            </h2>
+
+            <button
+                onclick="closeMeterModal()"
+                class="text-2xl text-gray-500">
+
+                &times;
+
+            </button>
+
+        </div>
+
+        <form
+            method="POST"
+            action="{{ route('resource-meters.store') }}">
+
+            @csrf
+
+            <div class="space-y-4">
+
+                <input
+                    type="text"
+                    name="meter_code"
+                    placeholder="Meter Code"
+                    class="w-full border rounded-xl px-4 py-3"
+                    required>
+
+                <input
+                    type="text"
+                    name="location"
+                    placeholder="Location"
+                    class="w-full border rounded-xl px-4 py-3"
+                    required>
+
+                <select
+                    name="building_id"
+                    class="w-full border rounded-xl px-4 py-3"
+                    required>
+
+                    <option value="">
+                        Select Building
+                    </option>
+
+                    @foreach($buildings as $building)
+
+                    <option value="{{ $building->id }}">
+                        {{ $building->name }}
+                    </option>
+
+                    @endforeach
+
+                </select>
+
+                <select
+                    name="resource_type_id"
+                    class="w-full border rounded-xl px-4 py-3"
+                    required>
+
+                    <option value="">
+                        Select Resource Type
+                    </option>
+
+                    @foreach($resourceTypes as $type)
+
+                    <option value="{{ $type->id }}">
+                        {{ $type->name }}
+                    </option>
+
+                    @endforeach
+
+                </select>
+
+                <button
+                    class="w-full bg-red-500 text-white py-3 rounded-xl">
+
+                    Save Meter
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- Edit Resource Meter Modal -->
+<div
+    id="edit-meter-modal"
+    class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+
+    <div class="bg-white rounded-2xl w-full max-w-lg p-6">
+
+        <div class="flex items-center justify-between mb-5">
+
+            <h2 class="text-xl font-bold">
+
+                Edit Resource Meter
+
+            </h2>
+
+            <button
+                onclick="closeEditMeterModal()"
+                class="text-2xl text-gray-500">
+
+                &times;
+
+            </button>
+
+        </div>
+
+        <form
+            method="POST"
+            id="edit-meter-form">
+
+            @csrf
+            @method('PUT')
+
+            <div class="space-y-4">
+
+                <input
+                    type="text"
+                    name="meter_code"
+                    id="edit-meter-code"
+                    class="w-full border rounded-xl px-4 py-3"
+                    required>
+
+                <input
+                    type="text"
+                    name="location"
+                    id="edit-meter-location"
+                    class="w-full border rounded-xl px-4 py-3"
+                    required>
+
+                <select
+                    name="building_id"
+                    id="edit-meter-building"
+                    class="w-full border rounded-xl px-4 py-3"
+                    required>
+
+                    @foreach($buildings as $building)
+
+                    <option value="{{ $building->id }}">
+                        {{ $building->name }}
+                    </option>
+
+                    @endforeach
+
+                </select>
+
+                <select
+                    name="resource_type_id"
+                    id="edit-meter-type"
+                    class="w-full border rounded-xl px-4 py-3"
+                    required>
+
+                    @foreach($resourceTypes as $type)
+
+                    <option value="{{ $type->id }}">
+                        {{ $type->name }}
+                    </option>
+
+                    @endforeach
+
+                </select>
+
+                <button
+                    class="w-full bg-red-500 text-white py-3 rounded-xl">
+
+                    Update Meter
+
+                </button>
+
+            </div>
+
+        </form>
 
     </div>
 
