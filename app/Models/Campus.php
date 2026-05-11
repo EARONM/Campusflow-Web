@@ -12,7 +12,9 @@ class Campus extends Model
 
     public function buildings()
     {
-        return $this->hasMany(Building::class);
+        return $this->hasMany(
+            Building::class
+        );
     }
 
 }

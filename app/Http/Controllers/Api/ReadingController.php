@@ -40,40 +40,52 @@ class ReadingController extends Controller
 
     public function meters(Request $request)
     {
-        $type = strtolower(
-            $request->type
-        );
+        $type = $request->type;
 
-        $meters = \App\Models\ResourceMeter::query()
+        $query = ResourceMeter::query();
 
-            ->when($type, function (
-                $query
-            ) use ($type) {
+        // filter by resource type
+        if ($type) {
 
-                $query->whereHas(
-                    'resourceType',
-                    function ($q) use ($type) {
+            $query->whereHas(
+                'resourceType',
+                function ($q) use ($type) {
 
-                        $q->whereRaw(
-                            'LOWER(name) = ?',
-                            [$type]
-                        );
-                    }
-                );
-            })
+                    $q->whereRaw(
+                        'LOWER(name) = ?',
+                        [strtolower($type)]
+                    );
+                }
+            );
+        }
 
-            ->select(
+        // logged in user
+        $user = auth()->user();
+
+        // campus filtering
+        if (
+            $user &&
+            $user->campus_id
+        ) {
+
+            $query->whereHas(
+                'building',
+                function ($q) use ($user) {
+
+                    $q->where(
+                        'campus_id',
+                        $user->campus_id
+                    );
+                }
+            );
+        }
+
+        return response()->json(
+            $query->select(
                 'id',
                 'meter_code',
                 'location'
-            )
-
-            ->orderBy('location')
-
-            ->get();
-
-        return response()->json(
-            $meters
+            )->get()
         );
     }
 

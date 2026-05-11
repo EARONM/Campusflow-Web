@@ -6,14 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class ResourceType extends Model
 {
-    protected $table = 'resource_types';
+    protected $fillable = [
+        'name',
+    ];
 
     public function resourceMeters()
     {
         return $this->hasMany(
-            ResourceMeter::class,
-            'resource_type_id'
+            ResourceMeter::class
         );
     }
-
 }

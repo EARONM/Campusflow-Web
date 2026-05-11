@@ -25,7 +25,7 @@ class UserManagementController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
             'role_id' => 'required',
-            'campus_id' => 'nullable',
+            'campus_id' => 'nullable|exists:campuses,id',
         ]);
 
         $loggedUser = auth()->user();
