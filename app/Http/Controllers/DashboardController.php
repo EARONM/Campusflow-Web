@@ -66,6 +66,8 @@ class DashboardController extends Controller
         ->take(7)
         ->get();
 
+        $campusId = request('campus');
+
         return view('dashboard', [
 
             'totalUsers' =>
@@ -75,15 +77,55 @@ class DashboardController extends Controller
                 Campus::count(),
 
             'totalBuildings' =>
-                Building::count(),
+                Building::when(
+                    $campusId,
+                    function ($q) use ($campusId) {
+
+                        $q->where(
+                            'campus_id',
+                            $campusId
+                        );
+                    }
+                )->count(),
 
             'totalMeters' =>
-                ResourceMeter::count(),
+                ResourceMeter::when(
+                    $campusId,
+                    function ($q) use ($campusId) {
+
+                        $q->whereHas(
+                            'building',
+                            function ($b) use ($campusId) {
+
+                                $b->where(
+                                    'campus_id',
+                                    $campusId
+                                );
+                            }
+                        );
+                    }
+                )->count(),
 
             'latestReadings' =>
                 Reading::with([
                     'meter.resourceType'
                 ])
+                ->when(
+                    $campusId,
+                    function ($q) use ($campusId) {
+
+                        $q->whereHas(
+                            'meter.building',
+                            function ($b) use ($campusId) {
+
+                                $b->where(
+                                    'campus_id',
+                                    $campusId
+                                );
+                            }
+                        );
+                    }
+                )
                 ->latest()
                 ->take(5)
                 ->get(),
@@ -103,6 +145,9 @@ class DashboardController extends Controller
             'wasteChartData' =>
                 $wasteReadings
                     ->pluck('total'),
+
+            'campuses' =>
+                Campus::all(),
         ]);
     }
 }

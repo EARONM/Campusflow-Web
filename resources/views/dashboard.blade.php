@@ -1,12 +1,12 @@
 <x-app-layout>
 
-<div class="grid grid-cols-12 gap-5 h-[calc(100vh-130px)]">
+<div class="grid grid-cols-12 gap-5">
 
     <!-- Left Section -->
-    <div class="col-span-9 grid grid-rows-[100px_1fr] gap-5">
+    <div class="col-span-9 flex flex-col gap-5">
 
         <!-- KPI Cards -->
-        <div class="grid grid-cols-4 gap-5">
+        <div class="grid grid-cols-5 gap-5">
 
             <!-- Buildings -->
             <div class="bg-white rounded-2xl border border-gray-100 shadow-sm px-5 py-4 hover:shadow-md transition">
@@ -15,6 +15,7 @@
                         <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">
                             Buildings
                         </p>
+
                         <h2 class="text-3xl font-bold text-gray-900 mt-1">
                             {{ $totalBuildings }}
                         </h2>
@@ -33,6 +34,7 @@
                         <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">
                             Pending
                         </p>
+
                         <h2 class="text-3xl font-bold text-red-600 mt-1">
                             {{ $totalCampuses }}
                         </h2>
@@ -51,6 +53,7 @@
                         <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">
                             Energy
                         </p>
+
                         <h2 class="text-3xl font-bold text-lime-700 mt-1">
                             {{ $totalMeters }}
                         </h2>
@@ -69,6 +72,7 @@
                         <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">
                             Water
                         </p>
+
                         <h2 class="text-3xl font-bold text-blue-600 mt-1">
                             {{ $totalUsers }}
                         </h2>
@@ -80,13 +84,49 @@
                 </div>
             </div>
 
+            <!-- Campus Filter -->
+            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm px-5 py-4">
+
+                <p class="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">
+                    Campus Filter
+                </p>
+
+                <form method="GET">
+
+                    <select
+                        name="campus"
+                        onchange="this.form.submit()"
+                        class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none">
+
+                        <option value="">
+                            All Campuses
+                        </option>
+
+                        @foreach($campuses as $campus)
+
+                        <option
+                            value="{{ $campus->id }}"
+                            {{ request('campus') == $campus->id ? 'selected' : '' }}>
+
+                            {{ $campus->name }}
+
+                        </option>
+
+                        @endforeach
+
+                    </select>
+
+                </form>
+
+            </div>
+
         </div>
 
         <!-- Main Content -->
-        <div class="grid grid-cols-12 gap-5 min-h-0">
+        <div class="grid grid-cols-12 gap-5">
 
             <!-- Chart -->
-            <div class="col-span-8 bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col min-h-0">
+            <div class="col-span-8 bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
 
                 <div class="flex items-center justify-between mb-4">
                     <div>
@@ -106,14 +146,14 @@
                     </select>
                 </div>
 
-                <div class="flex-1 rounded-2xl border border-dashed border-gray-300 bg-gray-50 p-4 relative min-h-[350px]">
+                <div class="rounded-2xl border border-dashed border-gray-300 bg-gray-50 p-4 h-[400px]">
                     <canvas id="waterChart"></canvas>
                 </div>
 
             </div>
 
             <!-- Reports -->
-            <div class="col-span-4 bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col min-h-0">
+            <div class="col-span-4 bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
 
                 <div class="flex items-center justify-between mb-4">
                     <h2 class="text-xl font-bold text-gray-900">
@@ -163,22 +203,7 @@
     </div>
 
     <!-- Right Section -->
-    <div class="col-span-3 grid grid-rows-[100px_170px_1fr] gap-5">
-
-        <!-- Campus Filter -->
-        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 flex flex-col justify-center">
-
-            <p class="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">
-                Campus
-            </p>
-
-            <select class="border border-gray-200 rounded-xl px-3 py-2 text-sm">
-                <option>All Campuses</option>
-                <option>Main</option>
-                <option>Alangilan</option>
-            </select>
-
-        </div>
+    <div class="col-span-3 flex flex-col gap-5">
 
         <!-- Alerts -->
         <div class="bg-gradient-to-br from-[#0d1a12] to-[#183322] text-white rounded-2xl shadow-sm p-5">
@@ -209,7 +234,7 @@
         </div>
 
         <!-- Activity -->
-        <div class="space-y-4 text-sm text-gray-700 overflow-y-auto">
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 space-y-4 text-sm text-gray-700">
 
             @forelse($latestReadings as $reading)
 
