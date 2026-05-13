@@ -1,165 +1,343 @@
 <x-app-layout>
 
-<div class="px-6 py-5">
-    <!-- Divider -->
-    <div class="border-b mb-5"></div>
+<div class="px-6 py-5 space-y-6">
 
-    <!-- Filters -->
-    <div class="flex items-center gap-4 mb-5">
+    <!-- Header -->
+    <div>
 
-        <button class="flex items-center gap-2 border rounded-xl px-4 py-2 text-sm bg-white">
-            <i class="fa-regular fa-calendar"></i>
-            Sort
-            <i class="fa-solid fa-caret-down ml-10 text-[#7a7a3c]"></i>
-        </button>
+        <h1 class="
+            text-3xl
+            font-bold
+            text-gray-900
+        ">
 
-        <button class="bg-[#d8d8c0] text-[#405240] px-8 py-2 rounded-full text-sm font-semibold">
-            View All Data
-        </button>
+            Reports
+
+        </h1>
+
+        <p class="
+            text-sm
+            text-gray-500
+            mt-1
+        ">
+
+            Export campus utility reports
+
+        </p>
 
     </div>
 
-    <!-- Table Card -->
-    <div class="bg-white border rounded-3xl p-5 min-h-[620px]">
+    <!-- Export Card -->
+    <div class="
+        bg-white
+        border
+        border-gray-100
+        rounded-3xl
+        p-6
+        shadow-sm
+    ">
 
-        <!-- Header -->
-        <div class="grid grid-cols-7 text-sm text-[#4f6650] pb-4 border-b">
+        <form
+            method="GET"
+            action="{{ route('reports.export.csv') }}"
+            class="
+                grid
+                grid-cols-4
+                gap-4
+            "
+        >
 
-            <div>Department</div>
-            <div>Electricity</div>
-            <div>Water</div>
-            <div>Other</div>
-            <div>Status</div>
-            <div>Acknowledge</div>
-            <div></div>
-
-        </div>
-
-        <!-- Row 1 -->
-        <div class="grid grid-cols-7 items-center py-4 border-b text-sm">
-
-            <div>CEAFA</div>
-
+            <!-- Campus -->
             <div>
-                <span class="bg-lime-100 px-3 py-1 rounded">
-                    ☑ Submitted
-                </span>
+
+                <label class="
+                    text-sm
+                    text-gray-600
+                    block
+                    mb-2
+                ">
+
+                    Campus
+
+                </label>
+
+                <select
+                    name="campus"
+                    class="
+                        w-full
+                        border
+                        border-gray-200
+                        rounded-xl
+                        px-4
+                        py-3
+                        bg-white
+                    "
+                >
+
+                    <option value="">
+                        All Campuses
+                    </option>
+
+                    @foreach($campuses as $campus)
+
+                        <option
+                            value="{{ $campus->id }}"
+                        >
+
+                            {{ $campus->name }}
+
+                        </option>
+
+                    @endforeach
+
+                </select>
+
             </div>
 
+            <!-- From -->
             <div>
-                <span class="bg-cyan-100 px-3 py-1 rounded">
-                    ☑ Submitted
-                </span>
+
+                <label class="
+                    text-sm
+                    text-gray-600
+                    block
+                    mb-2
+                ">
+
+                    From
+
+                </label>
+
+                <input
+                    type="date"
+                    name="from"
+                    class="
+                        w-full
+                        border
+                        border-gray-200
+                        rounded-xl
+                        px-4
+                        py-3
+                    "
+                >
+
             </div>
 
+            <!-- To -->
             <div>
-                <span class="bg-red-100 px-3 py-1 rounded">
-                    ☑ Submitted
-                </span>
+
+                <label class="
+                    text-sm
+                    text-gray-600
+                    block
+                    mb-2
+                ">
+
+                    To
+
+                </label>
+
+                <input
+                    type="date"
+                    name="to"
+                    class="
+                        w-full
+                        border
+                        border-gray-200
+                        rounded-xl
+                        px-4
+                        py-3
+                    "
+                >
+
             </div>
 
-            <div>
-                <span class="bg-gray-100 px-3 py-1 rounded">
-                    ☑ Complete
-                </span>
-            </div>
+            <!-- Export Buttons -->
+            <div class="
+                flex
+                items-end
+                gap-3
+            ">
 
-            <div>
-                <button class="bg-black text-white px-5 py-1 rounded-full text-xs">
-                    Accept
+                <!-- CSV -->
+                <button
+                    type="submit"
+                    class="
+                        flex-1
+                        bg-[#101a13]
+                        hover:bg-[#183322]
+                        text-white
+                        py-3
+                        rounded-xl
+                        transition
+                    "
+                >
+
+                    Export CSV
+
                 </button>
+
+                <a
+                    href="{{ route('reports.export.pdf') }}"
+                    class="
+                        flex-1
+                        bg-red-600
+                        hover:bg-red-700
+                        text-white
+                        py-3
+                        rounded-xl
+                        transition
+                        text-center
+                    "
+                >
+
+                    Export PDF
+
+                </a>
+
             </div>
 
-            <div>
-                <button class="bg-black text-white px-5 py-1 rounded-full text-xs">
-                    Flag
-                </button>
+        </form>
+
+    </div>
+
+    <!-- Information -->
+    <div class="
+        bg-white
+        border
+        border-gray-100
+        rounded-3xl
+        p-6
+        shadow-sm
+    ">
+
+        <h2 class="
+            text-xl
+            font-bold
+            text-gray-900
+            mb-4
+        ">
+
+            Report Coverage
+
+        </h2>
+
+        <div class="
+            grid
+            grid-cols-4
+            gap-4
+        ">
+
+            <div class="
+                border
+                border-gray-100
+                rounded-2xl
+                p-4
+            ">
+
+                <p class="
+                    text-sm
+                    text-gray-500
+                ">
+
+                    Included Data
+
+                </p>
+
+                <h3 class="
+                    text-lg
+                    font-bold
+                    mt-2
+                ">
+
+                    Readings
+
+                </h3>
+
             </div>
 
-        </div>
+            <div class="
+                border
+                border-gray-100
+                rounded-2xl
+                p-4
+            ">
 
-        <!-- Row 2 -->
-        <div class="grid grid-cols-7 items-center py-4 border-b text-sm">
+                <p class="
+                    text-sm
+                    text-gray-500
+                ">
 
-            <div>CABEIM</div>
+                    Export Type
 
-            <div>
-                <span class="bg-lime-100 px-3 py-1 rounded">
-                    ☑ Submitted
-                </span>
+                </p>
+
+                <h3 class="
+                    text-lg
+                    font-bold
+                    mt-2
+                ">
+
+                    CSV
+
+                </h3>
+
             </div>
 
-            <div>
-                <span class="bg-cyan-100 px-3 py-1 rounded">
-                    ☑ Submitted
-                </span>
+            <div class="
+                border
+                border-gray-100
+                rounded-2xl
+                p-4
+            ">
+
+                <p class="
+                    text-sm
+                    text-gray-500
+                ">
+
+                    Filtering
+
+                </p>
+
+                <h3 class="
+                    text-lg
+                    font-bold
+                    mt-2
+                ">
+
+                    Campus + Date
+
+                </h3>
+
             </div>
 
-            <div>
-                <span class="bg-red-100 px-3 py-1 rounded">
-                    ✕ Missing
-                </span>
-            </div>
+            <div class="
+                border
+                border-gray-100
+                rounded-2xl
+                p-4
+            ">
 
-            <div>
-                <span class="bg-gray-100 px-3 py-1 rounded">
-                    ✕ Incomplete
-                </span>
-            </div>
+                <p class="
+                    text-sm
+                    text-gray-500
+                ">
 
-            <div>
-                <button class="bg-black text-white px-5 py-1 rounded-full text-xs">
-                    Accept
-                </button>
-            </div>
+                    Generated
 
-            <div>
-                <button class="bg-black text-white px-5 py-1 rounded-full text-xs">
-                    Flag
-                </button>
-            </div>
+                </p>
 
-        </div>
+                <h3 class="
+                    text-lg
+                    font-bold
+                    mt-2
+                ">
 
-        <!-- Row 3 -->
-        <div class="grid grid-cols-7 items-center py-4 text-sm">
+                    Real-Time
 
-            <div>CIT</div>
+                </h3>
 
-            <div>
-                <span class="bg-lime-100 px-3 py-1 rounded">
-                    ☑ Submitted
-                </span>
-            </div>
-
-            <div>
-                <span class="bg-cyan-100 px-3 py-1 rounded">
-                    ☑ Submitted
-                </span>
-            </div>
-
-            <div>
-                <span class="bg-red-100 px-3 py-1 rounded">
-                    ☑ Submitted
-                </span>
-            </div>
-
-            <div>
-                <span class="bg-gray-100 px-3 py-1 rounded">
-                    ☑ Complete
-                </span>
-            </div>
-
-            <div>
-                <button class="bg-black text-white px-5 py-1 rounded-full text-xs">
-                    Accept
-                </button>
-            </div>
-
-            <div>
-                <button class="bg-black text-white px-5 py-1 rounded-full text-xs">
-                    Flag
-                </button>
             </div>
 
         </div>
