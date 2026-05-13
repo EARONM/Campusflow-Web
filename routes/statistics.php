@@ -1,11 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\StatisticsController;
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware([
+    'auth'
+])->group(function () {
 
-    Route::get('/statistics', function () {
-        return view('statistics');
-    })->name('statistics');
+    Route::get(
+        '/statistics',
+        [StatisticsController::class, 'index']
+    )->name('statistics');
 
 });

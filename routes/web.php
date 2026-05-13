@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ResourceMeterController;
 use App\Http\Controllers\Admin\BuildingController;
 use App\Http\Controllers\Admin\ResourceTypeController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AlertController;
 
 Route::get('/', function () {
     return auth()->check()
@@ -79,6 +80,17 @@ Route::middleware('auth')->group(function () {
 
 
     // All authenticated users
+
+    Route::patch(
+        '/alerts/{alert}/resolve',
+        [AlertController::class, 'resolve']
+    )->name('alerts.resolve');
+
+    Route::patch(
+        '/alerts/{alert}/read',
+        [AlertController::class, 'markAsRead']
+    )->name('alerts.read');
+
     Route::get('/alerts', function () {
         return view('alerts');
     })->name('alerts');

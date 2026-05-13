@@ -1,4 +1,19 @@
 @php
+
+use App\Models\Alert;
+
+$navAlerts = Alert::latest()
+    ->take(5)
+    ->get();
+
+$navUnreadAlerts = Alert::where(
+    'is_read',
+    false
+)->count();
+
+@endphp
+
+@php
 $title = match(true) {
     request()->routeIs('dashboard') => 'Dashboard',
     request()->routeIs('statistics') => 'Statistics',
@@ -33,11 +48,6 @@ class="fixed top-0 right-0 left-0 lg:left-72 h-16 bg-white border-b border-gray-
         <!-- Right -->
         <div class="flex items-center gap-4">
 
-            <button class="relative text-gray-500">
-                <i class="fa-solid fa-bell text-lg"></i>
-                <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-            </button>
-
             <div class="text-right hidden sm:block">
                 <p class="text-sm font-semibold text-gray-900">
                     {{ Auth::user()->name }}
@@ -46,6 +56,124 @@ class="fixed top-0 right-0 left-0 lg:left-72 h-16 bg-white border-b border-gray-
                 <span class="text-xs text-gray-500">
                     {{ Auth::user()->role->name ?? 'User' }}
                 </span>
+            </div>
+
+            <!-- Notifications -->
+            <div class="relative">
+
+                <button
+                    onclick="toggleNotifications()"
+                    class="
+                        relative
+                        w-10
+                        h-10
+                        rounded-xl
+                        flex
+                        items-center
+                        justify-center
+                        hover:bg-gray-100
+                        transition
+                    "
+                >
+
+                    <i class="fa-solid fa-bell text-gray-600"></i>
+
+                    @if($navUnreadAlerts > 0)
+
+                        <span class="
+                            absolute
+                            -top-1
+                            -right-1
+                            bg-red-500
+                            text-white
+                            text-[10px]
+                            w-5
+                            h-5
+                            rounded-full
+                            flex
+                            items-center
+                            justify-center
+                        ">
+
+                            {{ $navUnreadAlerts }}
+
+                        </span>
+
+                    @endif
+
+                </button>
+
+                <!-- Dropdown -->
+                <div
+                    id="notification-dropdown"
+                    class="
+                        hidden
+                        absolute
+                        right-0
+                        mt-3
+                        w-80
+                        bg-white
+                        border
+                        border-gray-100
+                        rounded-2xl
+                        shadow-xl
+                        z-50
+                    "
+                >
+
+                    <div class="p-4 border-b">
+
+                        <h2 class="font-bold text-gray-800">
+
+                            Notifications
+
+                        </h2>
+
+                    </div>
+
+                    <div class="max-h-96 overflow-y-auto">
+
+                        @forelse($navAlerts as $alert)
+
+                            <div
+                                class="p-4 border-b cursor-pointer hover:bg-gray-50 transition"
+                                onclick="markNotificationAsRead({{ $alert->id }})"
+                            >
+
+                                <p class="text-sm font-semibold text-gray-800">
+
+                                    {{ $alert->title }}
+
+                                </p>
+
+                                <p class="text-xs text-gray-500 mt-1">
+
+                                    {{ $alert->message }}
+
+                                </p>
+
+                                <p class="text-[11px] text-gray-400 mt-2">
+
+                                    {{ $alert->created_at->diffForHumans() }}
+
+                                </p>
+
+                            </div>
+
+                        @empty
+
+                            <div class="p-4 text-sm text-gray-400">
+
+                                No notifications
+
+                            </div>
+
+                        @endforelse
+
+                    </div>
+
+                </div>
+
             </div>
 
             <!-- Profile Dropdown -->

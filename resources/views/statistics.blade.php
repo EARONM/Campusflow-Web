@@ -26,7 +26,14 @@
                 </div>
 
                 <div class="mt-5 flex items-end justify-between">
-                    <h2 class="text-4xl font-bold">1,420</h2>
+                    <h2 class="text-4xl font-bold">
+
+                        {{ number_format(
+                            collect($electricData)->sum(),
+                            2
+                        ) }}
+
+                    </h2>
                     <span class="text-sm text-gray-300 mb-1">kWh</span>
                 </div>
             </div>
@@ -49,32 +56,123 @@
                 </div>
 
                 <div class="mt-5 flex items-end justify-between">
-                    <h2 class="text-4xl font-bold">235</h2>
+                    <h2 class="text-4xl font-bold">
+
+                        {{ number_format(
+                            collect($waterData)->sum(),
+                            2
+                        ) }}
+
+                    </h2>
                     <span class="text-sm text-gray-300 mb-1">m³</span>
                 </div>
             </div>
 
-            <!-- Average -->
-            <div class="bg-gradient-to-br from-[#0d1a12] to-[#183322] text-white rounded-2xl border border-[#21392c] shadow-sm p-5">
+            <!-- Monthly Comparison -->
+            <div class="
+                bg-gradient-to-br
+                from-[#0d1a12]
+                to-[#183322]
+                text-white
+                rounded-2xl
+                border
+                border-[#21392c]
+                shadow-sm
+                p-5
+            ">
+
                 <div class="flex items-center justify-between">
+
                     <div>
-                        <p class="text-xs uppercase tracking-wide text-gray-300">
-                            Avg Daily Usage
+
+                        <p class="
+                            text-xs
+                            uppercase
+                            tracking-wide
+                            text-gray-300
+                        ">
+
+                            Monthly Usage
+
                         </p>
-                        <p class="text-sm text-gray-400 mt-1">
-                            Campus Average
+
+                        <p class="
+                            text-sm
+                            text-gray-400
+                            mt-1
+                        ">
+
+                            Current vs Previous Month
+
                         </p>
+
                     </div>
 
-                    <div class="w-11 h-11 rounded-xl bg-white/10 flex items-center justify-center">
-                        <i class="fa-solid fa-arrow-trend-up"></i>
+                    <div class="
+                        w-11
+                        h-11
+                        rounded-xl
+                        bg-white/10
+                        flex
+                        items-center
+                        justify-center
+                    ">
+
+                        <i class="fa-solid fa-chart-line"></i>
+
                     </div>
+
                 </div>
 
-                <div class="mt-5 flex items-end justify-between">
-                    <h2 class="text-4xl font-bold">15.8</h2>
-                    <span class="text-sm text-gray-300 mb-1">kWh</span>
+                <div class="
+                    mt-5
+                    flex
+                    items-end
+                    justify-between
+                ">
+
+                    <div>
+
+                        <h2 class="text-4xl font-bold">
+
+                            {{ number_format(
+                                $currentMonthUsage,
+                                2
+                            ) }}
+
+                        </h2>
+
+                        <p class="
+                            text-sm
+                            mt-2
+
+                            {{ $monthlyPercentage >= 0
+                                ? 'text-red-300'
+                                : 'text-green-300' }}
+                        ">
+
+                            {{ $monthlyPercentage >= 0 ? '+' : '' }}
+
+                            {{ $monthlyPercentage }}%
+
+                            vs last month
+
+                        </p>
+
+                    </div>
+
+                    <span class="
+                        text-sm
+                        text-gray-300
+                        mb-1
+                    ">
+
+                        Total Usage
+
+                    </span>
+
                 </div>
+
             </div>
 
         </div>
@@ -94,17 +192,50 @@
                     </p>
                 </div>
 
-                <select class="border border-gray-200 rounded-xl px-3 py-2 text-sm">
-                    <option>Quarter 1</option>
-                    <option>Quarter 2</option>
-                    <option>Quarter 3</option>
-                    <option>Yearly</option>
-                </select>
+                <form method="GET">
+
+                    <select
+                        name="campus"
+                        onchange="this.form.submit()"
+                        class="
+                            border
+                            border-gray-200
+                            rounded-xl
+                            px-3
+                            py-2
+                            text-sm
+                        "
+                    >
+
+                        <option value="">
+                            All Campuses
+                        </option>
+
+                        @foreach($campuses as $campus)
+
+                            <option
+                                value="{{ $campus->id }}"
+                                {{ request('campus') == $campus->id
+                                    ? 'selected'
+                                    : '' }}
+                            >
+
+                                {{ $campus->name }}
+
+                            </option>
+
+                        @endforeach
+
+                    </select>
+
+                </form>
 
             </div>
 
-            <div class="flex-1 rounded-2xl border border-dashed border-gray-300 bg-gray-50 flex items-center justify-center text-gray-400">
-                Insert Chart.js / ApexCharts Here
+            <div class="flex-1">
+
+                <canvas id="statisticsChart"></canvas>
+
             </div>
 
             <div class="mt-4 flex items-center gap-2 text-sm text-gray-700">
@@ -165,25 +296,122 @@
 
         </div>
 
-        <!-- Top Consumer -->
-        <div class="bg-gradient-to-br from-[#0d1a12] to-[#183322] text-white rounded-2xl border border-[#21392c] shadow-sm p-5">
+        <!-- Peak Consumption -->
+        <div class="
+            bg-white
+            rounded-2xl
+            border
+            border-gray-100
+            shadow-sm
+            p-5
+        ">
 
-            <p class="text-xs uppercase tracking-wide text-gray-300">
-                Top Consumer
-            </p>
+            <div class="flex items-center justify-between">
 
-            <h2 class="text-2xl font-bold mt-3">
-                CEAFA Building
-            </h2>
+                <div>
 
-            <div class="mt-8 flex items-end gap-2">
-                <h3 class="text-6xl font-bold">480</h3>
-                <span class="mb-2 text-sm text-gray-300">kWh</span>
+                    <p class="
+                        text-xs
+                        uppercase
+                        tracking-wide
+                        text-gray-500
+                    ">
+
+                        Peak Consumption
+
+                    </p>
+
+                    <h2 class="
+                        text-2xl
+                        font-bold
+                        text-gray-900
+                        mt-3
+                    ">
+
+                        {{ number_format(
+                            $peakReading->reading_value ?? 0,
+                            2
+                        ) }}
+
+                    </h2>
+
+                </div>
+
+                <div class="
+                    w-11
+                    h-11
+                    rounded-xl
+                    bg-red-100
+                    text-red-600
+                    flex
+                    items-center
+                    justify-center
+                ">
+
+                    <i class="fa-solid fa-fire"></i>
+
+                </div>
+
             </div>
 
-            <div class="mt-5 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs">
-                <i class="fa-solid fa-play text-[10px]"></i>
-                Quarter 1
+            <div class="mt-5 space-y-2">
+
+                <div class="
+                    flex
+                    justify-between
+                    text-sm
+                ">
+
+                    <span class="text-gray-500">
+                        Building
+                    </span>
+
+                    <span class="font-semibold text-gray-800">
+
+                        {{ $peakReading->meter->building->name ?? 'N/A' }}
+
+                    </span>
+
+                </div>
+
+                <div class="
+                    flex
+                    justify-between
+                    text-sm
+                ">
+
+                    <span class="text-gray-500">
+                        Resource
+                    </span>
+
+                    <span class="font-semibold text-gray-800">
+
+                        {{ $peakReading->meter->resourceType->name ?? 'N/A' }}
+
+                    </span>
+
+                </div>
+
+                <div class="
+                    flex
+                    justify-between
+                    text-sm
+                ">
+
+                    <span class="text-gray-500">
+                        Recorded
+                    </span>
+
+                    <span class="font-semibold text-gray-800">
+
+                        {{ optional(
+                            $peakReading->created_at
+                        )->diffForHumans() }}
+
+                    </span>
+
+                </div>
+
             </div>
 
         </div>
@@ -191,5 +419,68 @@
     </div>
 
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const ctx =
+    document
+        .getElementById(
+            'statisticsChart'
+        );
+
+new Chart(ctx, {
+
+    type: 'line',
+
+    data: {
+
+        labels:
+            @json($waterLabels),
+
+        datasets: [
+
+            {
+                label: 'Water',
+                data:
+                    @json($waterData),
+                borderColor: '#2563eb',
+                backgroundColor: 'transparent',
+                tension: 0.4,
+            },
+
+            {
+                label: 'Electric',
+                data:
+                    @json($electricData),
+                borderColor: '#f59e0b',
+                backgroundColor: 'transparent',
+                tension: 0.4,
+            },
+
+            {
+                label: 'Waste',
+                data:
+                    @json($wasteData),
+                borderColor: '#16a34a',
+                backgroundColor: 'transparent',
+                tension: 0.4,
+            },
+
+        ]
+    },
+
+    options: {
+
+        responsive: true,
+
+        maintainAspectRatio: false,
+
+    }
+
+});
+
+</script>
 
 </x-app-layout>

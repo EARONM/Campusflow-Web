@@ -12,5 +12,6 @@ class Alert extends Model
         'title',
         'message',
         'is_read',
+        'status',
     ];
 }
