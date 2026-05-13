@@ -462,7 +462,9 @@ function openEditMeterModal(
     meterCode,
     location,
     buildingId,
-    resourceTypeId
+    resourceTypeId,
+    minThreshold,
+    maxThreshold
 )
 {
     document
@@ -488,6 +490,18 @@ function openEditMeterModal(
             'edit-meter-type'
         )
         .value = resourceTypeId;
+
+    document
+        .getElementById(
+            'edit_min_threshold'
+        )
+        .value = minThreshold ?? '';
+
+    document
+        .getElementById(
+            'edit_max_threshold'
+        )
+        .value = maxThreshold ?? '';
 
     document
         .getElementById(

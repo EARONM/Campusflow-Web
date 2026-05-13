@@ -7,7 +7,9 @@
 
     <label>Building</label>
 
-    <select name="building_id" required>
+    <select
+        name="building_id"
+        required>
 
         @foreach($buildings as $building)
 
@@ -25,8 +27,7 @@
 
     <select
         name="resource_type_id"
-        required
-    >
+        required>
 
         @foreach($types as $type)
 
@@ -45,8 +46,7 @@
     <input
         type="text"
         name="meter_code"
-        required
-    >
+        required>
 
     <br><br>
 
@@ -55,8 +55,25 @@
     <input
         type="text"
         name="location"
-        required
-    >
+        required>
+
+    <br><br>
+
+    <label>Minimum Threshold</label>
+
+    <input
+        type="number"
+        step="0.01"
+        name="min_threshold">
+
+    <br><br>
+
+    <label>Maximum Threshold</label>
+
+    <input
+        type="number"
+        step="0.01"
+        name="max_threshold">
 
     <br><br>
 

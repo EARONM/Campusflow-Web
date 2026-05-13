@@ -13,6 +13,8 @@ class ResourceMeter extends Model
         'resource_type_id',
         'meter_code',
         'location',
+        'min_threshold',
+        'max_threshold',
     ];
 
     public function building()

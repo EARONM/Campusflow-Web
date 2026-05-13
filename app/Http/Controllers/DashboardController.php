@@ -9,6 +9,8 @@ use App\Models\Building;
 use App\Models\ResourceMeter;
 use App\Models\Reading;
 use App\Models\ResourceType;
+use Carbon\Carbon;
+use App\Models\Alert;
 
 class DashboardController extends Controller
 {
@@ -68,7 +70,195 @@ class DashboardController extends Controller
 
         $campusId = request('campus');
 
+        $currentMonthStart =
+            Carbon::now()->startOfMonth();
+
+        $previousMonthStart =
+            Carbon::now()
+                ->subMonth()
+                ->startOfMonth();
+
+        $previousMonthEnd =
+            Carbon::now()
+                ->subMonth()
+                ->endOfMonth();
+
+        $currentWaterUsage = Reading::whereHas(
+            'meter.resourceType',
+            function ($q) {
+
+                $q->where(
+                    'name',
+                    'Water'
+                );
+            }
+        )
+        ->whereDate(
+            'created_at',
+            '>=',
+            $currentMonthStart
+        )
+        ->sum('reading_value');
+
+        $previousWaterUsage = Reading::whereHas(
+            'meter.resourceType',
+            function ($q) {
+
+                $q->where(
+                    'name',
+                    'Water'
+                );
+            }
+        )
+        ->whereBetween(
+            'created_at',
+            [
+                $previousMonthStart,
+                $previousMonthEnd
+            ]
+        )
+        ->sum('reading_value');
+
+        $waterPercentage = 0;
+
+        if ($previousWaterUsage > 0) {
+
+            $waterPercentage =
+                (
+                    (
+                        $currentWaterUsage -
+                        $previousWaterUsage
+                    ) /
+                    $previousWaterUsage
+                ) * 100;
+        }
+
+        $alerts = [];
+
+        // high water usage
+        if ($currentWaterUsage > 2000) {
+
+            $alerts[] = [
+
+                'title' =>
+                    'High Water Usage',
+
+                'count' =>
+                    number_format(
+                        $currentWaterUsage,
+                        2
+                    ),
+            ];
+        }
+
+        // inactive meters
+        $inactiveMeters = ResourceMeter::doesntHave(
+            'readings'
+        )->count();
+
+        if ($inactiveMeters > 0) {
+
+            $alerts[] = [
+
+                'title' =>
+                    'Inactive Meters',
+
+                'count' =>
+                    $inactiveMeters,
+            ];
+        }
+
+        // missing readings today
+        $missingReadings = ResourceMeter::whereDoesntHave(
+            'readings',
+            function ($q) {
+
+                $q->whereDate(
+                    'created_at',
+                    today()
+                );
+            }
+        )->count();
+
+        if ($missingReadings > 0) {
+
+            $alerts[] = [
+
+                'title' =>
+                    'Missing Daily Readings',
+
+                'count' =>
+                    $missingReadings,
+            ];
+        }
+
+        $latestReadings = Reading::with(
+            'meter'
+        )->latest()->take(20)->get();
+
+        foreach ($latestReadings as $reading) {
+
+            $meter = $reading->meter;
+
+            if (
+                $meter &&
+                $meter->max_threshold &&
+                $reading->reading_value >
+                $meter->max_threshold
+            ) {
+
+                $alerts[] = [
+
+                    'title' =>
+                        'Threshold Exceeded',
+
+                    'count' =>
+                        $meter->meter_code,
+                ];
+            }
+        }
+
+        $thresholdExceeded = Reading::whereHas(
+            'meter',
+            function ($q) {
+
+                $q->whereNotNull(
+                    'max_threshold'
+                );
+            }
+        )
+        ->whereHas(
+            'meter',
+            function ($q) {
+
+                $q->whereColumn(
+                    'resource_readings.reading_value',
+                    '>',
+                    'resource_meters.max_threshold'
+                );
+            }
+        )
+        ->count();
+
+        $alerts = Alert::latest()
+            ->take(5)
+            ->get();
+
+        $unreadAlerts = Alert::where(
+            'is_read',
+            false
+        )->count();
+
         return view('dashboard', [
+
+            'alerts' =>
+                $alerts,
+
+            'thresholdExceeded' =>
+                $thresholdExceeded,
+
+            'unreadAlerts' =>
+                $unreadAlerts,
 
             'totalUsers' =>
                 User::count(),
@@ -148,6 +338,15 @@ class DashboardController extends Controller
 
             'campuses' =>
                 Campus::all(),
+
+            'currentWaterUsage' =>
+                $currentWaterUsage,
+
+            'previousWaterUsage' =>
+                $previousWaterUsage,
+
+            'waterPercentage' =>
+                round($waterPercentage, 1),
         ]);
     }
 }
