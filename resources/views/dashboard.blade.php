@@ -318,15 +318,36 @@
 
                     <div class="
                         border-l-2
-                        border-yellow-400
+                        {{ $alert->status === 'resolved'
+                            ? 'border-green-400'
+                            : 'border-yellow-400' }}
                         pl-3
                     ">
 
-                        <p class="text-sm font-semibold">
+                        <div class="flex items-center justify-between">
 
-                            {{ $alert->title }}
+                            <p class="text-sm font-semibold">
 
-                        </p>
+                                {{ $alert->title }}
+
+                            </p>
+
+                            <span class="
+                                text-[10px]
+                                px-2
+                                py-1
+                                rounded-full
+
+                                {{ $alert->status === 'resolved'
+                                    ? 'bg-green-500/20 text-green-300'
+                                    : 'bg-yellow-500/20 text-yellow-300' }}
+                            ">
+
+                                {{ strtoupper($alert->status) }}
+
+                            </span>
+
+                        </div>
 
                         <p class="text-xs text-gray-200 mt-1">
 
@@ -339,6 +360,37 @@
                             {{ $alert->created_at->diffForHumans() }}
 
                         </p>
+
+                        @if($alert->status === 'active')
+
+                            <form
+                                action="{{ route('alerts.resolve', $alert) }}"
+                                method="POST"
+                                class="mt-3"
+                            >
+
+                                @csrf
+                                @method('PATCH')
+
+                                <button
+                                    class="
+                                        text-xs
+                                        bg-white/10
+                                        hover:bg-white/20
+                                        px-3
+                                        py-1
+                                        rounded-lg
+                                        transition
+                                    "
+                                >
+
+                                    Resolve
+
+                                </button>
+
+                            </form>
+
+                        @endif
 
                     </div>
 
