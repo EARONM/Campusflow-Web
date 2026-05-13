@@ -28,22 +28,69 @@
             </div>
 
             <!-- Pending -->
-            <div class="bg-white rounded-2xl border border-red-100 shadow-sm px-5 py-4 hover:shadow-md transition">
+            <div class="
+                bg-white
+                rounded-2xl
+                border
+                {{ $thresholdExceeded > 0
+                    ? 'border-red-200'
+                    : 'border-gray-100' }}
+                shadow-sm
+                px-5
+                py-4
+                hover:shadow-md
+                transition
+            ">
+
                 <div class="flex items-center justify-between">
+
                     <div>
+
                         <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">
-                            Pending
+                            Threshold Alerts
                         </p>
 
-                        <h2 class="text-3xl font-bold text-red-600 mt-1">
-                            {{ $totalCampuses }}
+                        <h2 class="
+                            text-3xl
+                            font-bold
+                            mt-1
+
+                            {{ $thresholdExceeded > 0
+                                ? 'text-red-600'
+                                : 'text-gray-900' }}
+                        ">
+
+                            {{ $thresholdExceeded }}
+
                         </h2>
+
+                        <p class="text-xs mt-2 text-gray-500">
+
+                            Active exceeded thresholds
+
+                        </p>
+
                     </div>
 
-                    <div class="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center text-red-600">
+                    <div class="
+                        w-10
+                        h-10
+                        rounded-xl
+                        flex
+                        items-center
+                        justify-center
+
+                        {{ $thresholdExceeded > 0
+                            ? 'bg-red-50 text-red-600'
+                            : 'bg-gray-100 text-gray-500' }}
+                    ">
+
                         !
+
                     </div>
+
                 </div>
+
             </div>
 
             <!-- Energy -->
@@ -66,22 +113,42 @@
             </div>
 
             <!-- Water -->
-            <div class="bg-white rounded-2xl border border-blue-100 shadow-sm px-5 py-4 hover:shadow-md transition">
-                <div class="flex items-center justify-between">
+            <div class="bg-white rounded-2xl border border-blue-100 shadow-sm px-5 py-4 hover:shadow-md transition h-full">
+
+                <div class="flex items-center justify-between h-full">
+
                     <div>
+
                         <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">
-                            Water
+                            Water Usage
                         </p>
 
                         <h2 class="text-3xl font-bold text-blue-600 mt-1">
-                            {{ $totalUsers }}
+                            {{ number_format($currentWaterUsage, 2) }}
                         </h2>
+
+                        <p class="text-xs mt-2
+                            {{ $waterPercentage >= 0
+                                ? 'text-red-500'
+                                : 'text-green-600' }}">
+
+                            {{ $waterPercentage >= 0 ? '+' : '' }}
+                            {{ $waterPercentage }}%
+
+                            vs last month
+
+                        </p>
+
                     </div>
 
                     <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600">
+
                         💧
+
                     </div>
+
                 </div>
+
             </div>
 
             <!-- Campus Filter -->
@@ -165,34 +232,42 @@
                     </a>
                 </div>
 
-                <div class="space-y-4 overflow-y-auto text-sm">
+                <div class="space-y-4 mt-5">
 
-                    <div class="pb-3 border-b border-gray-100">
-                        <p class="font-medium text-gray-800">
-                            Broken Water Meter
-                        </p>
-                        <span class="inline-block mt-2 px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700">
-                            Pending
-                        </span>
-                    </div>
+                    @forelse($alerts as $alert)
 
-                    <div class="pb-3 border-b border-gray-100">
-                        <p class="font-medium text-gray-800">
-                            FE Expired
-                        </p>
-                        <span class="inline-block mt-2 px-2 py-1 text-xs rounded-full bg-red-100 text-red-700">
-                            Urgent
-                        </span>
-                    </div>
+                        <div class="flex items-center justify-between">
 
-                    <div>
-                        <p class="font-medium text-gray-800">
-                            Electrical Spike
+                            <p class="text-sm text-white">
+
+                                {{ $alert['title'] }}
+
+                            </p>
+
+                            <span class="
+                                text-sm
+                                font-semibold
+
+                                {{ $alert['title'] == 'High Water Usage'
+                                    ? 'text-red-300'
+                                    : 'text-yellow-300' }}
+                            ">
+
+                                {{ $alert['count'] }}
+
+                            </span>
+
+                        </div>
+
+                    @empty
+
+                        <p class="text-sm text-gray-300">
+
+                            No active alerts
+
                         </p>
-                        <span class="inline-block mt-2 px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-700">
-                            Review
-                        </span>
-                    </div>
+
+                    @endforelse
 
                 </div>
 
@@ -206,75 +281,135 @@
     <div class="col-span-3 flex flex-col gap-5">
 
         <!-- Alerts -->
-        <div class="bg-gradient-to-br from-[#0d1a12] to-[#183322] text-white rounded-2xl shadow-sm p-5">
+        <div class="
+            rounded-2xl
+            shadow-sm
+            p-5
+            text-white
 
-            <h2 class="text-lg font-bold mb-4">
-                Alerts
-            </h2>
+            {{ $unreadAlerts > 0
+                ? 'bg-gradient-to-br from-red-950 to-green-950'
+                : 'bg-gray-800' }}
+        ">
 
-            <div class="space-y-3 text-sm">
+            <div class="flex items-center justify-between mb-4">
 
-                <div class="flex justify-between">
-                    <span>FE Expired</span>
-                    <span class="text-yellow-300">3</span>
-                </div>
+                <h2 class="text-lg font-bold">
+                    Alerts
+                </h2>
 
-                <div class="flex justify-between">
-                    <span>Meters Offline</span>
-                    <span class="text-red-300">2</span>
-                </div>
+                <span class="
+                    text-xs
+                    px-2
+                    py-1
+                    rounded-full
+                    bg-white/10
+                ">
 
-                <div class="flex justify-between">
-                    <span>Pending Tasks</span>
-                    <span class="text-blue-300">5</span>
-                </div>
+                    {{ $unreadAlerts }}
+
+                </span>
+
+            </div>
+
+            <div class="space-y-4">
+
+                @forelse($alerts as $alert)
+
+                    <div class="
+                        border-l-2
+                        border-yellow-400
+                        pl-3
+                    ">
+
+                        <p class="text-sm font-semibold">
+
+                            {{ $alert->title }}
+
+                        </p>
+
+                        <p class="text-xs text-gray-200 mt-1">
+
+                            {{ $alert->message }}
+
+                        </p>
+
+                        <p class="text-[11px] text-gray-300 mt-1">
+
+                            {{ $alert->created_at->diffForHumans() }}
+
+                        </p>
+
+                    </div>
+
+                @empty
+
+                    <div class="text-sm text-gray-300">
+
+                        No alerts found
+
+                    </div>
+
+                @endforelse
 
             </div>
 
         </div>
 
         <!-- Activity -->
-        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 space-y-4 text-sm text-gray-700">
+        <div class="
+            bg-white
+            rounded-2xl
+            border
+            border-gray-100
+            shadow-sm
+            p-5
+            space-y-4
+            text-sm
+            text-gray-700
+        ">
 
             @forelse($latestReadings as $reading)
 
-            <div class="border-l-2 border-green-500 pl-3">
+                <div class="
+                    border-l-2
+                    border-green-500
+                    pl-3
+                ">
 
-                <p class="font-semibold">
+                    <p class="font-semibold">
 
-                    {{ $reading->meter->meter_code ?? '-' }}
+                        {{ $reading->meter->meter_code ?? '-' }}
 
-                </p>
+                    </p>
 
-                <p class="text-xs text-gray-500">
+                    <p class="text-xs text-gray-500">
 
-                    {{ $reading->meter->resourceType->name ?? '-' }}
+                        {{ $reading->meter->resourceType->name ?? '-' }}
 
-                    •
+                        •
 
-                    {{ $reading->reading_value }}
+                        {{ $reading->reading_value }}
 
-                </p>
+                    </p>
 
-                <p class="text-xs text-gray-400 mt-1">
+                    <p class="text-xs text-gray-400 mt-1">
 
-                    {{ $reading->created_at->diffForHumans() }}
+                        {{ $reading->created_at->diffForHumans() }}
 
-                </p>
+                    </p>
 
-            </div>
+                </div>
 
             @empty
 
-            <div class="text-gray-400 text-sm">
+                <div class="text-gray-400 text-sm">
 
-                No recent activity
+                    No recent activity
 
-            </div>
+                </div>
 
             @endforelse
-
-        </div>
 
         </div>
 

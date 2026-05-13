@@ -918,6 +918,42 @@
 
             </h2>
 
+            <div class="grid grid-cols-2 gap-4 mb-4">
+
+                <div>
+
+                    <label class="text-sm text-gray-600 block mb-1">
+                        Min Threshold
+                    </label>
+
+                    <input
+                        type="number"
+                        step="0.01"
+                        name="min_threshold"
+                        id="edit_min_threshold"
+                        class="w-full border rounded-xl px-4 py-3"
+                    >
+
+                </div>
+
+                <div>
+
+                    <label class="text-sm text-gray-600 block mb-1">
+                        Max Threshold
+                    </label>
+
+                    <input
+                        type="number"
+                        step="0.01"
+                        name="max_threshold"
+                        id="edit_max_threshold"
+                        class="w-full border rounded-xl px-4 py-3"
+                    >
+
+                </div>
+
+            </div>
+
             <button
                 onclick="closeEditMeterModal()"
                 class="text-2xl text-gray-500">

@@ -7,6 +7,7 @@ use App\Models\Reading;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\ResourceMeter;
+use App\Models\Alert;
 
 class ReadingController extends Controller
 {
@@ -32,6 +33,40 @@ class ReadingController extends Controller
             'reading_value' => $data['reading'],
             'reading_date' => now(),
         ]);
+
+        $meter = ResourceMeter::find(
+            $data['resource_meter_id']
+        );
+
+        if (
+            $meter &&
+            $meter->max_threshold &&
+            $reading->reading_value >
+            $meter->max_threshold
+        ) {
+
+            Alert::create([
+
+                'user_id' => auth()->id(),
+
+                'title' =>
+                    'Threshold Exceeded',
+
+                'message' =>
+
+                    $meter->meter_code .
+
+                    ' exceeded max threshold of ' .
+
+                    $meter->max_threshold .
+
+                    '. Current reading: ' .
+
+                    $reading->reading_value,
+
+                'is_read' => false,
+            ]);
+        }
 
         return response()->json([
             'message' => 'Reading saved successfully',

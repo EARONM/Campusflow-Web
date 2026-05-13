@@ -53,6 +53,12 @@ class ResourceMeterController extends Controller
 
             'location' =>
                 'required|string|max:255',
+
+            'min_threshold' =>
+                'nullable|numeric',
+
+            'max_threshold' =>
+                'nullable|numeric',
         ]);
 
         ResourceMeter::create([
@@ -68,6 +74,12 @@ class ResourceMeterController extends Controller
 
             'location' =>
                 $request->location,
+
+            'min_threshold' =>
+                $request->min_threshold,
+
+            'max_threshold' =>
+                $request->max_threshold,
         ]);
 
         return redirect()
