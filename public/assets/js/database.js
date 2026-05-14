@@ -64,6 +64,60 @@ function showSection(section)
         'bg-red-500',
         'text-white'
     );
+
+    const addBtn =
+        document.getElementById(
+            'add-record-btn'
+        );
+
+    if (section === 'users') {
+
+        addBtn.href = '/users';
+
+        addBtn.innerText =
+            'Add User';
+
+    }
+
+    if (section === 'campuses') {
+
+        addBtn.href =
+            '/campuses/create';
+
+        addBtn.innerText =
+            'Add Campus';
+
+    }
+
+    if (section === 'buildings') {
+
+        addBtn.href =
+            '/buildings/create';
+
+        addBtn.innerText =
+            'Add Building';
+
+    }
+
+    if (section === 'resource-types') {
+
+        addBtn.href =
+            '/resource-types/create';
+
+        addBtn.innerText =
+            'Add Resource Type';
+
+    }
+
+    if (section === 'resource-meters') {
+
+        addBtn.href =
+            '/resource-meters/create';
+
+        addBtn.innerText =
+            'Add Resource Meter';
+
+    }
 }
 
 function addRecord()
@@ -115,44 +169,6 @@ function addRecord()
 
             break;
     }
-}
-
-function openCampusModal()
-{
-    document
-        .getElementById(
-            'campus-modal'
-        )
-        .classList.remove(
-            'hidden'
-        );
-
-    document
-        .getElementById(
-            'campus-modal'
-        )
-        .classList.add(
-            'flex'
-        );
-}
-
-function closeCampusModal()
-{
-    document
-        .getElementById(
-            'campus-modal'
-        )
-        .classList.remove(
-            'flex'
-        );
-
-    document
-        .getElementById(
-            'campus-modal'
-        )
-        .classList.add(
-            'hidden'
-        );
 }
 
 document.addEventListener(
@@ -266,105 +282,6 @@ function closeBuildingModal()
         );
 }
 
-function openEditBuildingModal(
-    id,
-    name,
-    campusId
-)
-{
-    document
-        .getElementById(
-            'edit-building-name'
-        )
-        .value = name;
-
-    document
-        .getElementById(
-            'edit-building-campus'
-        )
-        .value = campusId;
-
-    document
-        .getElementById(
-            'edit-building-form'
-        )
-        .action =
-            '/buildings/' + id;
-
-    document
-        .getElementById(
-            'edit-building-modal'
-        )
-        .classList.remove(
-            'hidden'
-        );
-
-    document
-        .getElementById(
-            'edit-building-modal'
-        )
-        .classList.add(
-            'flex'
-        );
-}
-
-function closeEditBuildingModal()
-{
-    document
-        .getElementById(
-            'edit-building-modal'
-        )
-        .classList.remove(
-            'flex'
-        );
-
-    document
-        .getElementById(
-            'edit-building-modal'
-        )
-        .classList.add(
-            'hidden'
-        );
-}
-
-function openResourceTypeModal()
-{
-    document
-        .getElementById(
-            'resource-type-modal'
-        )
-        .classList.remove(
-            'hidden'
-        );
-
-    document
-        .getElementById(
-            'resource-type-modal'
-        )
-        .classList.add(
-            'flex'
-        );
-}
-
-function closeResourceTypeModal()
-{
-    document
-        .getElementById(
-            'resource-type-modal'
-        )
-        .classList.remove(
-            'flex'
-        );
-
-    document
-        .getElementById(
-            'resource-type-modal'
-        )
-        .classList.add(
-            'hidden'
-        );
-}
-
 function openEditResourceTypeModal(
     id,
     name
@@ -451,95 +368,6 @@ function closeMeterModal()
     document
         .getElementById(
             'meter-modal'
-        )
-        .classList.add(
-            'hidden'
-        );
-}
-
-function openEditMeterModal(
-    id,
-    meterCode,
-    location,
-    buildingId,
-    resourceTypeId,
-    minThreshold,
-    maxThreshold
-)
-{
-    document
-        .getElementById(
-            'edit-meter-code'
-        )
-        .value = meterCode;
-
-    document
-        .getElementById(
-            'edit-meter-location'
-        )
-        .value = location;
-
-    document
-        .getElementById(
-            'edit-meter-building'
-        )
-        .value = buildingId;
-
-    document
-        .getElementById(
-            'edit-meter-type'
-        )
-        .value = resourceTypeId;
-
-    document
-        .getElementById(
-            'edit_min_threshold'
-        )
-        .value = minThreshold ?? '';
-
-    document
-        .getElementById(
-            'edit_max_threshold'
-        )
-        .value = maxThreshold ?? '';
-
-    document
-        .getElementById(
-            'edit-meter-form'
-        )
-        .action =
-            '/resource-meters/' + id;
-
-    document
-        .getElementById(
-            'edit-meter-modal'
-        )
-        .classList.remove(
-            'hidden'
-        );
-
-    document
-        .getElementById(
-            'edit-meter-modal'
-        )
-        .classList.add(
-            'flex'
-        );
-}
-
-function closeEditMeterModal()
-{
-    document
-        .getElementById(
-            'edit-meter-modal'
-        )
-        .classList.remove(
-            'flex'
-        );
-
-    document
-        .getElementById(
-            'edit-meter-modal'
         )
         .classList.add(
             'hidden'

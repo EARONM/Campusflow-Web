@@ -84,13 +84,22 @@
                 Export CSV
             </button>
 
-            <button
-                onclick="addRecord()"
-                class="px-5 py-2 rounded-xl bg-[#101a13] text-white text-sm">
+            <a
+                id="add-record-btn"
+                href="{{ route('users') }}"
+                class="
+                    px-5
+                    py-2
+                    rounded-xl
+                    bg-[#101a13]
+                    text-white
+                    text-sm
+                "
+            >
 
-                Add Record
+                Add User
 
-            </button>
+            </a>
 
         </div>
 
@@ -191,16 +200,22 @@
 
                 <div class="flex gap-2">
 
-                    <button
-                        onclick="openEditCampusModal(
-                            '{{ $campus->id }}',
-                            '{{ $campus->name }}'
-                        )"
-                        class="px-4 py-1 rounded-lg border">
+                    <a
+                        href="{{ route('campuses.edit', $campus) }}"
+                        class="
+                            px-4
+                            py-2
+                            rounded-xl
+                            border
+                            text-sm
+                            hover:bg-gray-100
+                            transition
+                        "
+                    >
 
                         Edit
 
-                    </button>
+                    </a>
 
                     <form
                         method="POST"
@@ -256,17 +271,22 @@
 
                 <div class="flex gap-2">
 
-                    <button
-                        onclick="openEditBuildingModal(
-                            '{{ $building->id }}',
-                            '{{ $building->name }}',
-                            '{{ $building->campus_id }}'
-                        )"
-                        class="px-4 py-1 rounded-lg border">
+                    <a
+                        href="{{ route('buildings.edit', $building) }}"
+                        class="
+                            px-4
+                            py-2
+                            rounded-xl
+                            border
+                            text-sm
+                            hover:bg-gray-100
+                            transition
+                        "
+                    >
 
                         Edit
 
-                    </button>
+                    </a>
 
                     <form
                         method="POST"
@@ -317,16 +337,22 @@
 
                 <div class="flex gap-2">
 
-                    <button
-                        onclick="openEditResourceTypeModal(
-                            '{{ $type->id }}',
-                            '{{ $type->name }}'
-                        )"
-                        class="px-4 py-1 rounded-lg border">
+                    <a
+                        href="{{ route('resource-types.edit', $type) }}"
+                        class="
+                            px-4
+                            py-2
+                            rounded-xl
+                            border
+                            text-sm
+                            hover:bg-gray-100
+                            transition
+                        "
+                    >
 
                         Edit
 
-                    </button>
+                    </a>
 
                     <form
                         method="POST"
@@ -392,19 +418,22 @@
 
                 <div class="flex gap-2">
 
-                    <button
-                        onclick="openEditMeterModal(
-                            '{{ $meter->id }}',
-                            '{{ $meter->meter_code }}',
-                            '{{ $meter->location }}',
-                            '{{ $meter->building_id }}',
-                            '{{ $meter->resource_type_id }}'
-                        )"
-                        class="px-4 py-1 rounded-lg border">
+                    <a
+                        href="{{ route('resource-meters.edit', $meter) }}"
+                        class="
+                            px-4
+                            py-2
+                            rounded-xl
+                            border
+                            text-sm
+                            hover:bg-gray-100
+                            transition
+                        "
+                    >
 
                         Edit
 
-                    </button>
+                    </a>
 
                     <form
                         method="POST"
@@ -490,62 +519,6 @@
 
 </div>
 
-<!-- Edit Campus Modal -->
-<div
-    id="edit-campus-modal"
-    class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
-
-    <div class="bg-white rounded-2xl w-full max-w-md p-6">
-
-        <div class="flex items-center justify-between mb-5">
-
-            <h2 class="text-xl font-bold">
-
-                Edit Campus
-
-            </h2>
-
-            <button
-                onclick="closeEditCampusModal()"
-                class="text-2xl text-gray-500">
-
-                &times;
-
-            </button>
-
-        </div>
-
-        <form
-            method="POST"
-            id="edit-campus-form">
-
-            @csrf
-            @method('PUT')
-
-            <div class="space-y-4">
-
-                <input
-                    type="text"
-                    name="name"
-                    id="edit-campus-name"
-                    class="w-full border rounded-xl px-4 py-3"
-                    required>
-
-                <button
-                    class="w-full bg-red-500 text-white py-3 rounded-xl">
-
-                    Update Campus
-
-                </button>
-
-            </div>
-
-        </form>
-
-    </div>
-
-</div>
-
 <!-- Building Modal -->
 <div
     id="building-modal"
@@ -620,78 +593,6 @@
 
 </div>
 
-<!-- Edit Building Modal -->
-<div
-    id="edit-building-modal"
-    class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
-
-    <div class="bg-white rounded-2xl w-full max-w-md p-6">
-
-        <div class="flex items-center justify-between mb-5">
-
-            <h2 class="text-xl font-bold">
-
-                Edit Building
-
-            </h2>
-
-            <button
-                onclick="closeEditBuildingModal()"
-                class="text-2xl text-gray-500">
-
-                &times;
-
-            </button>
-
-        </div>
-
-        <form
-            method="POST"
-            id="edit-building-form">
-
-            @csrf
-            @method('PUT')
-
-            <div class="space-y-4">
-
-                <input
-                    type="text"
-                    name="name"
-                    id="edit-building-name"
-                    class="w-full border rounded-xl px-4 py-3"
-                    required>
-
-                <select
-                    name="campus_id"
-                    id="edit-building-campus"
-                    class="w-full border rounded-xl px-4 py-3"
-                    required>
-
-                    @foreach($campuses as $campus)
-
-                    <option value="{{ $campus->id }}">
-                        {{ $campus->name }}
-                    </option>
-
-                    @endforeach
-
-                </select>
-
-                <button
-                    class="w-full bg-red-500 text-white py-3 rounded-xl">
-
-                    Update Building
-
-                </button>
-
-            </div>
-
-        </form>
-
-    </div>
-
-</div>
-
 <!-- Resource Type Modal -->
 <div
     id="resource-type-modal"
@@ -736,62 +637,6 @@
                     class="w-full bg-red-500 text-white py-3 rounded-xl">
 
                     Save Resource Type
-
-                </button>
-
-            </div>
-
-        </form>
-
-    </div>
-
-</div>
-
-<!-- Edit Resource Type Modal -->
-<div
-    id="edit-resource-type-modal"
-    class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
-
-    <div class="bg-white rounded-2xl w-full max-w-md p-6">
-
-        <div class="flex items-center justify-between mb-5">
-
-            <h2 class="text-xl font-bold">
-
-                Edit Resource Type
-
-            </h2>
-
-            <button
-                onclick="closeEditResourceTypeModal()"
-                class="text-2xl text-gray-500">
-
-                &times;
-
-            </button>
-
-        </div>
-
-        <form
-            method="POST"
-            id="edit-resource-type-form">
-
-            @csrf
-            @method('PUT')
-
-            <div class="space-y-4">
-
-                <input
-                    type="text"
-                    name="name"
-                    id="edit-resource-type-name"
-                    class="w-full border rounded-xl px-4 py-3"
-                    required>
-
-                <button
-                    class="w-full bg-red-500 text-white py-3 rounded-xl">
-
-                    Update Resource Type
 
                 </button>
 
@@ -892,137 +737,6 @@
                     class="w-full bg-red-500 text-white py-3 rounded-xl">
 
                     Save Meter
-
-                </button>
-
-            </div>
-
-        </form>
-
-    </div>
-
-</div>
-
-<!-- Edit Resource Meter Modal -->
-<div
-    id="edit-meter-modal"
-    class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
-
-    <div class="bg-white rounded-2xl w-full max-w-lg p-6">
-
-        <div class="flex items-center justify-between mb-5">
-
-            <h2 class="text-xl font-bold">
-
-                Edit Resource Meter
-
-            </h2>
-
-            <div class="grid grid-cols-2 gap-4 mb-4">
-
-                <div>
-
-                    <label class="text-sm text-gray-600 block mb-1">
-                        Min Threshold
-                    </label>
-
-                    <input
-                        type="number"
-                        step="0.01"
-                        name="min_threshold"
-                        id="edit_min_threshold"
-                        class="w-full border rounded-xl px-4 py-3"
-                    >
-
-                </div>
-
-                <div>
-
-                    <label class="text-sm text-gray-600 block mb-1">
-                        Max Threshold
-                    </label>
-
-                    <input
-                        type="number"
-                        step="0.01"
-                        name="max_threshold"
-                        id="edit_max_threshold"
-                        class="w-full border rounded-xl px-4 py-3"
-                    >
-
-                </div>
-
-            </div>
-
-            <button
-                onclick="closeEditMeterModal()"
-                class="text-2xl text-gray-500">
-
-                &times;
-
-            </button>
-
-        </div>
-
-        <form
-            method="POST"
-            id="edit-meter-form">
-
-            @csrf
-            @method('PUT')
-
-            <div class="space-y-4">
-
-                <input
-                    type="text"
-                    name="meter_code"
-                    id="edit-meter-code"
-                    class="w-full border rounded-xl px-4 py-3"
-                    required>
-
-                <input
-                    type="text"
-                    name="location"
-                    id="edit-meter-location"
-                    class="w-full border rounded-xl px-4 py-3"
-                    required>
-
-                <select
-                    name="building_id"
-                    id="edit-meter-building"
-                    class="w-full border rounded-xl px-4 py-3"
-                    required>
-
-                    @foreach($buildings as $building)
-
-                    <option value="{{ $building->id }}">
-                        {{ $building->name }}
-                    </option>
-
-                    @endforeach
-
-                </select>
-
-                <select
-                    name="resource_type_id"
-                    id="edit-meter-type"
-                    class="w-full border rounded-xl px-4 py-3"
-                    required>
-
-                    @foreach($resourceTypes as $type)
-
-                    <option value="{{ $type->id }}">
-                        {{ $type->name }}
-                    </option>
-
-                    @endforeach
-
-                </select>
-
-                <button
-                    class="w-full bg-red-500 text-white py-3 rounded-xl">
-
-                    Update Meter
 
                 </button>
 

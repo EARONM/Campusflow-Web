@@ -1,84 +1,306 @@
-<h2>Create Resource Meter</h2>
+<x-app-layout>
 
-<form method="POST"
-      action="{{ route('resource-meters.store') }}">
+<div class="max-w-4xl mx-auto">
 
-    @csrf
+    <!-- Back -->
+    <a
+        href="{{ route('database') }}"
+        class="
+            inline-flex
+            items-center
+            gap-2
+            text-sm
+            text-gray-500
+            hover:text-gray-800
+            mb-5
+            transition
+        "
+    >
 
-    <label>Building</label>
+        <i class="fa-solid fa-arrow-left"></i>
 
-    <select
-        name="building_id"
-        required>
+        Back to Database
 
-        @foreach($buildings as $building)
+    </a>
 
-            <option value="{{ $building->id }}">
-                {{ $building->name }}
-            </option>
+    <!-- Card -->
+    <div class="
+        bg-white
+        rounded-3xl
+        border
+        border-gray-100
+        shadow-sm
+        p-8
+    ">
 
-        @endforeach
+        <div class="mb-8">
 
-    </select>
+            <h1 class="
+                text-3xl
+                font-bold
+                text-gray-900
+            ">
 
-    <br><br>
+                Create Resource Meter
 
-    <label>Resource Type</label>
+            </h1>
 
-    <select
-        name="resource_type_id"
-        required>
+            <p class="
+                text-sm
+                text-gray-500
+                mt-2
+            ">
 
-        @foreach($types as $type)
+                Add a new utility meter
 
-            <option value="{{ $type->id }}">
-                {{ $type->name }}
-            </option>
+            </p>
 
-        @endforeach
+        </div>
 
-    </select>
+        <form
+            method="POST"
+            action="{{ route('resource-meters.store') }}"
+            class="space-y-6"
+        >
 
-    <br><br>
+            @csrf
 
-    <label>Meter Code</label>
+            <!-- Building -->
+            <div>
 
-    <input
-        type="text"
-        name="meter_code"
-        required>
+                <label class="
+                    block
+                    text-sm
+                    font-semibold
+                    text-gray-700
+                    mb-2
+                ">
 
-    <br><br>
+                    Building
 
-    <label>Location</label>
+                </label>
 
-    <input
-        type="text"
-        name="location"
-        required>
+                <select
+                    name="building_id"
+                    required
+                    class="
+                        w-full
+                        rounded-2xl
+                        border-gray-200
+                    "
+                >
 
-    <br><br>
+                    @foreach($buildings as $building)
 
-    <label>Minimum Threshold</label>
+                    <option
+                        value="{{ $building->id }}"
+                    >
 
-    <input
-        type="number"
-        step="0.01"
-        name="min_threshold">
+                        {{ $building->name }}
 
-    <br><br>
+                    </option>
 
-    <label>Maximum Threshold</label>
+                    @endforeach
 
-    <input
-        type="number"
-        step="0.01"
-        name="max_threshold">
+                </select>
 
-    <br><br>
+            </div>
 
-    <button type="submit">
-        Save
-    </button>
+            <!-- Resource Type -->
+            <div>
 
-</form>
+                <label class="
+                    block
+                    text-sm
+                    font-semibold
+                    text-gray-700
+                    mb-2
+                ">
+
+                    Resource Type
+
+                </label>
+
+                <select
+                    name="resource_type_id"
+                    required
+                    class="
+                        w-full
+                        rounded-2xl
+                        border-gray-200
+                    "
+                >
+
+                    @foreach($types as $type)
+
+                    <option
+                        value="{{ $type->id }}"
+                    >
+
+                        {{ $type->name }}
+
+                    </option>
+
+                    @endforeach
+
+                </select>
+
+            </div>
+
+            <!-- Meter Code -->
+            <div>
+
+                <label class="
+                    block
+                    text-sm
+                    font-semibold
+                    text-gray-700
+                    mb-2
+                ">
+
+                    Meter Code
+
+                </label>
+
+                <input
+                    type="text"
+                    name="meter_code"
+                    required
+                    class="
+                        w-full
+                        rounded-2xl
+                        border-gray-200
+                    "
+                    placeholder="Enter meter code"
+                >
+
+                @error('meter_code')
+
+                <p class="text-red-500 text-sm mt-2">
+
+                    {{ $message }}
+
+                </p>
+
+                @enderror
+
+            </div>
+
+            <!-- Location -->
+            <div>
+
+                <label class="
+                    block
+                    text-sm
+                    font-semibold
+                    text-gray-700
+                    mb-2
+                ">
+
+                    Location
+
+                </label>
+
+                <input
+                    type="text"
+                    name="location"
+                    required
+                    class="
+                        w-full
+                        rounded-2xl
+                        border-gray-200
+                    "
+                    placeholder="Enter location"
+                >
+
+            </div>
+
+            <!-- Thresholds -->
+            <div class="grid grid-cols-2 gap-6">
+
+                <div>
+
+                    <label class="
+                        block
+                        text-sm
+                        font-semibold
+                        text-gray-700
+                        mb-2
+                    ">
+
+                        Minimum Threshold
+
+                    </label>
+
+                    <input
+                        type="number"
+                        step="0.01"
+                        name="min_threshold"
+                        class="
+                            w-full
+                            rounded-2xl
+                            border-gray-200
+                        "
+                    >
+
+                </div>
+
+                <div>
+
+                    <label class="
+                        block
+                        text-sm
+                        font-semibold
+                        text-gray-700
+                        mb-2
+                    ">
+
+                        Maximum Threshold
+
+                    </label>
+
+                    <input
+                        type="number"
+                        step="0.01"
+                        name="max_threshold"
+                        class="
+                            w-full
+                            rounded-2xl
+                            border-gray-200
+                        "
+                    >
+
+                </div>
+
+            </div>
+
+            <!-- Submit -->
+            <div class="pt-4">
+
+                <button
+                    type="submit"
+                    class="
+                        w-full
+                        bg-[#101a13]
+                        hover:bg-[#183322]
+                        text-white
+                        py-4
+                        rounded-2xl
+                        transition
+                        font-semibold
+                    "
+                >
+
+                    Save Resource Meter
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</x-app-layout> 

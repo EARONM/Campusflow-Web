@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\HistoryController;
 use App\Http\Controllers\Api\StatusController;
 use App\Http\Controllers\Api\ReadingController;
 use App\Http\Controllers\Admin\ResourceMeterController;
+use App\Http\Controllers\Api\ReadingApiController;
 
 // test
 Route::get('/test', function () {
@@ -48,3 +49,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::put('/alerts/{id}/read', [AlertController::class, 'markAsRead']);
 });
+
+// For resource meter readings submission from devices
+Route::post(
+    '/submit-reading',
+    [ReadingApiController::class, 'store']
+);

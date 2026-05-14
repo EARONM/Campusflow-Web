@@ -281,7 +281,9 @@
     <div class="col-span-3 flex flex-col gap-5">
 
         <!-- Alerts -->
-        <div class="
+        <div
+            id="live-alerts"
+            class="
             rounded-2xl
             shadow-sm
             p-5
@@ -409,7 +411,7 @@
         </div>
 
         <!-- Activity -->
-        <div class="
+        <div id="live-readings" class="
             bg-white
             rounded-2xl
             border
@@ -473,61 +475,23 @@
 
 <script>
 
-const ctx =
-    document.getElementById(
-        'waterChart'
-    );
+window.dashboardData = {
 
-new Chart(ctx, {
+    chartLabels:
+        @json($chartLabels),
 
-    type: 'line',
+    waterChartData:
+        @json($waterChartData),
 
-    data: {
+    electricChartData:
+        @json($electricChartData),
 
-        labels: @json($chartLabels),
-
-        datasets: [
-
-            {
-
-                label: 'Water',
-
-                data: @json($waterChartData),
-
-                borderWidth: 2,
-                tension: 0.4,
-            },
-
-            {
-
-                label: 'Electric',
-
-                data: @json($electricChartData),
-
-                borderWidth: 2,
-                tension: 0.4,
-            },
-
-            {
-
-                label: 'Waste',
-
-                data: @json($wasteChartData),
-
-                borderWidth: 2,
-                tension: 0.4,
-            }
-        ]
-    },
-
-    options: {
-
-        responsive: true,
-
-        maintainAspectRatio: false,
-    }
-});
+    wasteChartData:
+        @json($wasteChartData),
+};
 
 </script>
+
+<script src="{{ asset('assets/js/dashboard.js') }}"></script>
 
 </x-app-layout>

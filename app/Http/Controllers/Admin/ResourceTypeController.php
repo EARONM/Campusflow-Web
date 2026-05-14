@@ -26,6 +26,18 @@ class ResourceTypeController extends Controller
         );
     }
 
+    public function edit(
+        ResourceType $resourceType
+    )
+    {
+        return view(
+            'admin.resource-types.edit',
+            [
+                'type' => $resourceType
+            ]
+        );
+    }
+
     public function store(Request $request)
     {
         $request->validate([

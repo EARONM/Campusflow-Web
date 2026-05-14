@@ -31,6 +31,19 @@ class BuildingController extends Controller
         );
     }
 
+    public function edit(Building $building)
+    {
+        $campuses = Campus::all();
+
+        return view(
+            'admin.buildings.edit',
+            compact(
+                'building',
+                'campuses'
+            )
+        );
+    }
+
     public function store(Request $request)
     {
         $request->validate([
