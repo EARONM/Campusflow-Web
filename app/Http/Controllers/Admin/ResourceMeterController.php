@@ -38,6 +38,24 @@ class ResourceMeterController extends Controller
         );
     }
 
+    public function edit(
+        ResourceMeter $resourceMeter
+    )
+    {
+        $buildings = Building::all();
+
+        $types = ResourceType::all();
+
+        return view(
+            'admin.resource-meters.edit',
+            compact(
+                'resourceMeter',
+                'buildings',
+                'types'
+            )
+        );
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -49,7 +67,7 @@ class ResourceMeterController extends Controller
                 'required|exists:resource_types,id',
 
             'meter_code' =>
-                'required|string|max:255',
+                'required|string|max:255|unique:resource_meters,meter_code',
 
             'location' =>
                 'required|string|max:255',
@@ -104,7 +122,7 @@ class ResourceMeterController extends Controller
                 'required|exists:resource_types,id',
 
             'meter_code' =>
-                'required|string|max:255',
+                'required|string|max:255|unique:resource_meters,meter_code,' . $resourceMeter->id,
 
             'location' =>
                 'required|string|max:255',

@@ -349,4 +349,29 @@ class DashboardController extends Controller
                 round($waterPercentage, 1),
         ]);
     }
+
+    public function liveData()
+    {
+        $latestReadings = Reading::with([
+            'meter.resourceType'
+        ])
+        ->latest()
+        ->take(5)
+        ->get();
+
+        $alerts =
+            Alert::latest()
+            ->take(5)
+            ->get();
+
+        return response()->json([
+
+            'latestReadings' =>
+                $latestReadings,
+
+            'alerts' =>
+                $alerts,
+        ]);
+    }
+
 }

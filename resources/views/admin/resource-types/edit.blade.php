@@ -4,7 +4,7 @@
 
     <!-- Back -->
     <a
-        href="{{ route('database') }}"
+        href="{{ route('resource-types.index') }}"
         class="
             inline-flex
             items-center
@@ -19,7 +19,7 @@
 
         <i class="fa-solid fa-arrow-left"></i>
 
-        Back to Database
+        Back to Resource Types
 
     </a>
 
@@ -33,7 +33,6 @@
         p-8
     ">
 
-        <!-- Title -->
         <div class="mb-8">
 
             <h1 class="
@@ -42,7 +41,7 @@
                 text-gray-900
             ">
 
-                Create Building
+                Edit Resource Type
 
             </h1>
 
@@ -52,7 +51,7 @@
                 mt-2
             ">
 
-                Add a new campus building
+                Update utility category information
 
             </p>
 
@@ -60,13 +59,14 @@
 
         <form
             method="POST"
-            action="{{ route('buildings.store') }}"
+            action="{{ route('resource-types.update', $type) }}"
             class="space-y-6"
         >
 
             @csrf
+            @method('PUT')
 
-            <!-- Campus -->
+            <!-- Name -->
             <div>
 
                 <label class="
@@ -77,65 +77,20 @@
                     mb-2
                 ">
 
-                    Campus
-
-                </label>
-
-                <select
-                    name="campus_id"
-                    required
-                    class="
-                        w-full
-                        rounded-2xl
-                        border-gray-200
-                        focus:border-[#183322]
-                        focus:ring-[#183322]
-                    "
-                >
-
-                    @foreach($campuses as $campus)
-
-                    <option
-                        value="{{ $campus->id }}"
-                    >
-
-                        {{ $campus->name }}
-
-                    </option>
-
-                    @endforeach
-
-                </select>
-
-            </div>
-
-            <!-- Building Name -->
-            <div>
-
-                <label class="
-                    block
-                    text-sm
-                    font-semibold
-                    text-gray-700
-                    mb-2
-                ">
-
-                    Building Name
+                    Resource Type Name
 
                 </label>
 
                 <input
                     type="text"
                     name="name"
+                    value="{{ $type->name }}"
                     required
                     class="
                         w-full
                         rounded-2xl
                         border-gray-200
-                        focus:border-[#183322]
-                        focus:ring-[#183322]
                     "
-                    placeholder="Enter building name"
                 >
 
             </div>
@@ -157,7 +112,7 @@
                     "
                 >
 
-                    Save Building
+                    Update Resource Type
 
                 </button>
 

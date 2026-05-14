@@ -27,6 +27,11 @@ Route::get(
 
 Route::middleware('auth')->group(function () {
 
+    Route::get(
+        '/dashboard/live-data',
+        [DashboardController::class, 'liveData']
+    );
+
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

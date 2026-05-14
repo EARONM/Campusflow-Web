@@ -4,7 +4,7 @@
 
     <!-- Back -->
     <a
-        href="{{ route('database') }}"
+        href="{{ route('buildings.index') }}"
         class="
             inline-flex
             items-center
@@ -19,7 +19,7 @@
 
         <i class="fa-solid fa-arrow-left"></i>
 
-        Back to Database
+        Back to Buildings
 
     </a>
 
@@ -33,7 +33,6 @@
         p-8
     ">
 
-        <!-- Title -->
         <div class="mb-8">
 
             <h1 class="
@@ -42,7 +41,7 @@
                 text-gray-900
             ">
 
-                Create Building
+                Edit Building
 
             </h1>
 
@@ -52,7 +51,7 @@
                 mt-2
             ">
 
-                Add a new campus building
+                Update building information
 
             </p>
 
@@ -60,11 +59,12 @@
 
         <form
             method="POST"
-            action="{{ route('buildings.store') }}"
+            action="{{ route('buildings.update', $building) }}"
             class="space-y-6"
         >
 
             @csrf
+            @method('PUT')
 
             <!-- Campus -->
             <div>
@@ -88,8 +88,6 @@
                         w-full
                         rounded-2xl
                         border-gray-200
-                        focus:border-[#183322]
-                        focus:ring-[#183322]
                     "
                 >
 
@@ -97,6 +95,9 @@
 
                     <option
                         value="{{ $campus->id }}"
+                        @selected(
+                            $building->campus_id == $campus->id
+                        )
                     >
 
                         {{ $campus->name }}
@@ -127,15 +128,13 @@
                 <input
                     type="text"
                     name="name"
+                    value="{{ $building->name }}"
                     required
                     class="
                         w-full
                         rounded-2xl
                         border-gray-200
-                        focus:border-[#183322]
-                        focus:ring-[#183322]
                     "
-                    placeholder="Enter building name"
                 >
 
             </div>
@@ -157,7 +156,7 @@
                     "
                 >
 
-                    Save Building
+                    Update Building
 
                 </button>
 
