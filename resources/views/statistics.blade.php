@@ -404,9 +404,7 @@
 
                     <span class="font-semibold text-gray-800">
 
-                        {{ optional(
-                            $peakReading->created_at
-                        )->diffForHumans() }}
+                        {{ optional($peakReading)->created_at?->diffForHumans() ?? 'No data available' }}
 
                     </span>
 
