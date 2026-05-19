@@ -13,5 +13,7 @@ class Alert extends Model
         'message',
         'is_read',
         'status',
+        'resource_meter_id',
+        'severity',
     ];
 }

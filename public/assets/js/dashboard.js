@@ -81,54 +81,104 @@ async function refreshDashboard()
 
             alertsHtml += `
 
+            <div class="
+                rounded-2xl
+                border
+                border-white/10
+                bg-white/[0.04]
+                p-5
+                backdrop-blur-sm
+            ">
+
                 <div class="
-                    border-l-2
-                    border-yellow-400
-                    pl-3
+                    flex
+                    items-start
+                    justify-between
+                    gap-4
                 ">
 
-                    <div class="
-                        flex
-                        items-center
-                        justify-between
-                    ">
+                    <div class="flex-1">
 
-                        <p class="
-                            text-sm
-                            font-semibold
+                        <h3 class="
+                            text-lg
+                            font-bold
                             text-white
                         ">
 
                             ${alert.title}
 
-                        </p>
+                        </h3>
 
-                        <span class="
-                            text-[10px]
-                            px-2
-                            py-1
-                            rounded-full
-                            bg-yellow-500/20
-                            text-yellow-300
+                        <p class="
+                            text-sm
+                            text-gray-300
+                            mt-3
+                            leading-7
                         ">
 
-                            ${alert.status.toUpperCase()}
+                            ${alert.message}
 
-                        </span>
+                        </p>
 
                     </div>
 
-                    <p class="
-                        text-xs
-                        text-gray-200
-                        mt-1
+                    <span class="
+                        text-[10px]
+                        px-3
+                        py-1
+                        rounded-full
+                        whitespace-nowrap
+                        font-semibold
+
+                        ${alert.status === 'resolved'
+                            ? 'bg-green-500/20 text-green-300'
+                            : 'bg-yellow-500/20 text-yellow-300'}
                     ">
 
-                        ${alert.message}
+                        ${alert.status.toUpperCase()}
+
+                    </span>
+
+                </div>
+
+                <div class="
+                    flex
+                    items-center
+                    justify-between
+                    mt-5
+                ">
+
+                    <p class="
+                        text-xs
+                        text-gray-400
+                    ">
+
+                        ${alert.created_at_human ?? ''}
 
                     </p>
 
+                    <span class="
+                        text-[10px]
+                        px-3
+                        py-1
+                        rounded-full
+                        font-semibold
+
+                        ${alert.severity === 'critical'
+                            ? 'bg-red-500/20 text-red-300'
+
+                            : alert.severity === 'warning'
+                                ? 'bg-yellow-500/20 text-yellow-300'
+                                : 'bg-blue-500/20 text-blue-300'}
+                    ">
+
+                        ${(alert.severity ?? 'info').toUpperCase()}
+
+                    </span>
+
                 </div>
+
+            </div>
 
             `;
         });
@@ -148,34 +198,64 @@ async function refreshDashboard()
 
             readingsHtml += `
 
+            <div class="
+                border
+                border-gray-100
+                rounded-2xl
+                p-5
+                hover:bg-gray-50
+                transition
+                bg-white
+            ">
+
                 <div class="
-                    border-l-2
-                    border-green-500
-                    pl-3
+                    flex
+                    items-start
+                    justify-between
+                    gap-4
                 ">
 
-                    <p class="
-                        font-semibold
-                    ">
+                    <div>
 
-                        ${reading.meter?.meter_code ?? '-'}
+                        <h3 class="
+                            text-lg
+                            font-bold
+                            text-gray-900
+                        ">
 
-                    </p>
+                            ${reading.meter?.meter_code ?? '-'}
 
-                    <p class="
+                        </h3>
+
+                        <p class="
+                            text-sm
+                            text-gray-500
+                            mt-2
+                        ">
+
+                            ${reading.meter?.resource_type?.name ?? '-'}
+
+                            •
+
+                            ${reading.reading_value ?? 0}
+
+                        </p>
+
+                    </div>
+
+                    <span class="
                         text-xs
-                        text-gray-500
+                        text-gray-400
+                        whitespace-nowrap
                     ">
 
-                        ${reading.meter?.resource_type?.name ?? '-'}
+                        ${reading.created_at_human ?? ''}
 
-                        •
-
-                        ${reading.reading_value}
-
-                    </p>
+                    </span>
 
                 </div>
+
+            </div>
 
             `;
         });

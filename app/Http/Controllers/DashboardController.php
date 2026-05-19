@@ -359,10 +359,29 @@ class DashboardController extends Controller
         ->take(5)
         ->get();
 
-        $alerts =
-            Alert::latest()
+        // add human readable time
+        $latestReadings->transform(function ($reading) {
+
+            $reading->created_at_human =
+                $reading->created_at
+                    ->diffForHumans();
+
+            return $reading;
+        });
+
+        $alerts = Alert::latest()
             ->take(5)
             ->get();
+
+        // add human readable time
+        $alerts->transform(function ($alert) {
+
+            $alert->created_at_human =
+                $alert->created_at
+                    ->diffForHumans();
+
+            return $alert;
+        });
 
         return response()->json([
 
