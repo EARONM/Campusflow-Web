@@ -38,34 +38,129 @@ class ReadingController extends Controller
             $data['resource_meter_id']
         );
 
-        if (
-            $meter &&
-            $meter->max_threshold &&
-            $reading->reading_value >
-            $meter->max_threshold
-        ) {
+        if ($meter) {
 
-            Alert::create([
+            // Max threshold exceeded
+            if (
 
-                'user_id' => auth()->id(),
+                !is_null(
+                    $meter->max_threshold
+                ) &&
 
-                'title' =>
-                    'Threshold Exceeded',
+                $reading->reading_value >
+                $meter->max_threshold
+            ) {
 
-                'message' =>
+                $existingAlert = Alert::where(
 
-                    $meter->meter_code .
+                    'resource_meter_id',
+                    $meter->id
 
-                    ' exceeded max threshold of ' .
+                )->where(
 
-                    $meter->max_threshold .
+                    'title',
+                    'Threshold Exceeded'
 
-                    '. Current reading: ' .
+                )->where(
 
-                    $reading->reading_value,
+                    'is_read',
+                    false
 
-                'is_read' => false,
-            ]);
+                )->first();
+
+                if (!$existingAlert) {
+
+                    Alert::create([
+
+                        'resource_meter_id' =>
+                            $meter->id,
+
+                        'user_id' =>
+                            auth()->id(),
+
+                        'title' =>
+                            'Threshold Exceeded',
+
+                        'severity' =>
+                            'critical',
+
+                        'message' =>
+
+                            $meter->meter_code .
+
+                            ' exceeded max threshold of ' .
+
+                            $meter->max_threshold .
+
+                            '. Current reading: ' .
+
+                            $reading->reading_value,
+
+                        'is_read' => false,
+                    ]);
+                }
+            }
+
+            // Min threshold warning
+            if (
+
+                !is_null(
+                    $meter->min_threshold
+                ) &&
+
+                $reading->reading_value <
+                $meter->min_threshold
+            ) {
+
+                $existingAlert = Alert::where(
+
+                    'resource_meter_id',
+                    $meter->id
+
+                )->where(
+
+                    'title',
+                    'Threshold Warning'
+
+                )->where(
+
+                    'is_read',
+                    false
+
+                )->first();
+
+                if (!$existingAlert) {
+
+                    Alert::create([
+
+                        'resource_meter_id' =>
+                            $meter->id,
+
+                        'user_id' =>
+                            auth()->id(),
+
+                        'title' =>
+                            'Threshold Warning',
+
+                        'severity' =>
+                            'warning',
+
+                        'message' =>
+
+                            $meter->meter_code .
+
+                            ' dropped below minimum threshold of ' .
+
+                            $meter->min_threshold .
+
+                            '. Current reading: ' .
+
+                            $reading->reading_value,
+
+                        'is_read' => false,
+                    ]);
+                }
+            }
         }
 
         return response()->json([
