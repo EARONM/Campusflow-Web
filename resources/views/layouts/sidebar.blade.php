@@ -27,32 +27,68 @@ transition-all duration-300 shadow-2xl flex flex-col overflow-hidden">
             <span class="sidebar-text">Dashboard</span>
         </a>
 
+        @if(
+            in_array(
+                auth()->user()->role->name,
+                [
+                    'SuperAdmin',
+                    'CampusAdmin'
+                ]
+            )
+        )
+
         <a href="{{ route('statistics') }}"
-           class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl transition
-           {{ request()->routeIs('statistics')
-              ? 'bg-red-500 text-white font-semibold'
-              : 'text-gray-400 hover:text-white hover:bg-white/5' }}">
+        class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl transition
+        {{ request()->routeIs('statistics')
+            ? 'bg-red-500 text-white font-semibold'
+            : 'text-gray-400 hover:text-white hover:bg-white/5' }}">
             <i class="fa-solid fa-chart-column w-5 shrink-0"></i>
             <span class="sidebar-text">Statistics</span>
         </a>
 
+        @endif
+
+        @if(
+            in_array(
+                auth()->user()->role->name,
+                [
+                    'SuperAdmin',
+                    'CampusAdmin'
+                ]
+            )
+        )
+
         <a href="{{ route('reports') }}"
-           class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl transition
-           {{ request()->routeIs('reports')
-              ? 'bg-red-500 text-white font-semibold'
-              : 'text-gray-400 hover:text-white hover:bg-white/5' }}">
+        class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl transition
+        {{ request()->routeIs('reports')
+            ? 'bg-red-500 text-white font-semibold'
+            : 'text-gray-400 hover:text-white hover:bg-white/5' }}">
             <i class="fa-solid fa-file-lines w-5 shrink-0"></i>
             <span class="sidebar-text">Reports</span>
-        </a>    
+        </a>
+
+        @endif
+
+        @if(
+            in_array(
+                auth()->user()->role->name,
+                [
+                    'SuperAdmin',
+                    'CampusAdmin'
+                ]
+            )
+        )
 
         <a href="{{ route('database') }}"
-           class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl transition
-           {{ request()->routeIs('database')
-              ? 'bg-red-500 text-white font-semibold'
-              : 'text-gray-400 hover:text-white hover:bg-white/5' }}">
+        class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl transition
+        {{ request()->routeIs('database')
+            ? 'bg-red-500 text-white font-semibold'
+            : 'text-gray-400 hover:text-white hover:bg-white/5' }}">
             <i class="fa-solid fa-database w-5 shrink-0"></i>
             <span class="sidebar-text">Database</span>
         </a>
+
+        @endif
 
     </nav>
     

@@ -5,15 +5,34 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Building;
 use App\Models\Campus;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class BuildingController extends Controller
 {
     public function index()
     {
-        $buildings = Building::with(
+        $query = Building::with(
             'campus'
-        )->latest()->get();
+        );
+
+        // Campus filtering
+        if (
+            Auth::user()->role->name
+            !== 'SuperAdmin'
+        ) {
+
+            $query->where(
+
+                'campus_id',
+
+                Auth::user()->campus_id
+            );
+        }
+
+        $buildings = $query
+            ->latest()
+            ->get();
 
         return view(
             'admin.buildings.index',
@@ -23,7 +42,22 @@ class BuildingController extends Controller
 
     public function create()
     {
-        $campuses = Campus::all();
+        if (
+            Auth::user()->role->name
+            === 'SuperAdmin'
+        ) {
+
+            $campuses = Campus::all();
+
+        } else {
+
+            $campuses = Campus::where(
+
+                'id',
+
+                Auth::user()->campus_id
+            )->get();
+        }
 
         return view(
             'admin.buildings.create',
@@ -33,7 +67,22 @@ class BuildingController extends Controller
 
     public function edit(Building $building)
     {
-        $campuses = Campus::all();
+        if (
+            Auth::user()->role->name
+            === 'SuperAdmin'
+        ) {
+
+            $campuses = Campus::all();
+
+        } else {
+
+            $campuses = Campus::where(
+
+                'id',
+
+                Auth::user()->campus_id
+            )->get();
+        }
 
         return view(
             'admin.buildings.edit',
@@ -55,13 +104,24 @@ class BuildingController extends Controller
 
         ]);
 
+        $campusId = $request->campus_id;
+
+        if (
+            Auth::user()->role->name
+            !== 'SuperAdmin'
+        ) {
+
+            $campusId =
+                Auth::user()->campus_id;
+        }
+
         Building::create([
+
             'campus_id' =>
-                $request->campus_id,
+                $campusId,
 
             'name' =>
                 $request->name,
-
         ]);
 
         return redirect()

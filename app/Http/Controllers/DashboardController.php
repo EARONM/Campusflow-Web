@@ -11,13 +11,23 @@ use App\Models\Reading;
 use App\Models\ResourceType;
 use Carbon\Carbon;
 use App\Models\Alert;
+use App\Helpers\CampusScope;
 
 class DashboardController extends Controller
 {
     public function index()
     {
 
-        $waterReadings = Reading::whereHas(
+        $waterReadings = Reading::query();
+
+        $waterReadings = CampusScope::apply(
+            $waterReadings,
+            auth()->user(),
+            'meter.building'
+        );
+
+        $waterReadings = $waterReadings
+        ->whereHas(
             'meter.resourceType',
             function ($q) {
 
@@ -34,7 +44,16 @@ class DashboardController extends Controller
         ->take(7)
         ->get();
 
-        $electricReadings = Reading::whereHas(
+        $electricReadings = Reading::query();
+
+        $electricReadings = CampusScope::apply(
+            $electricReadings,
+            auth()->user(),
+            'meter.building'
+        );
+
+        $electricReadings = $electricReadings
+        ->whereHas(
             'meter.resourceType',
             function ($q) {
 
@@ -51,7 +70,16 @@ class DashboardController extends Controller
         ->take(7)
         ->get();
 
-        $wasteReadings = Reading::whereHas(
+        $wasteReadings = Reading::query();
+
+        $wasteReadings = CampusScope::apply(
+            $wasteReadings,
+            auth()->user(),
+            'meter.building'
+        );
+
+        $wasteReadings = $wasteReadings
+        ->whereHas(
             'meter.resourceType',
             function ($q) {
 
@@ -68,7 +96,18 @@ class DashboardController extends Controller
         ->take(7)
         ->get();
 
-        $campusId = request('campus');
+        $user = auth()->user();
+
+        if (
+            $user->role?->name === 'CampusAdmin'
+        ) {
+
+            $campusId = $user->campus_id;
+
+        } else {
+
+            $campusId = request('campus');
+        }
 
         $currentMonthStart =
             Carbon::now()->startOfMonth();
@@ -131,41 +170,6 @@ class DashboardController extends Controller
                     ) /
                     $previousWaterUsage
                 ) * 100;
-        }
-
-        $alerts = [];
-
-        // high water usage
-        if ($currentWaterUsage > 2000) {
-
-            $alerts[] = [
-
-                'title' =>
-                    'High Water Usage',
-
-                'count' =>
-                    number_format(
-                        $currentWaterUsage,
-                        2
-                    ),
-            ];
-        }
-
-        // inactive meters
-        $inactiveMeters = ResourceMeter::doesntHave(
-            'readings'
-        )->count();
-
-        if ($inactiveMeters > 0) {
-
-            $alerts[] = [
-
-                'title' =>
-                    'Inactive Meters',
-
-                'count' =>
-                    $inactiveMeters,
-            ];
         }
 
         // missing readings today
@@ -240,7 +244,31 @@ class DashboardController extends Controller
         )
         ->count();
 
-        $alerts = Alert::latest()
+        $latestAlerts = Alert::query();
+
+        if (
+            auth()->user()->role->name
+            !== 'SuperAdmin'
+        ) {
+
+            $latestAlerts->whereHas(
+
+                'user',
+
+                function ($q) {
+
+                    $q->where(
+
+                        'campus_id',
+
+                        auth()->user()->campus_id
+                    );
+                }
+            );
+        }
+
+        $latestAlerts = $latestAlerts
+            ->latest()
             ->take(5)
             ->get();
 
@@ -252,7 +280,7 @@ class DashboardController extends Controller
         return view('dashboard', [
 
             'alerts' =>
-                $alerts,
+                $latestAlerts,
 
             'thresholdExceeded' =>
                 $thresholdExceeded,
@@ -369,12 +397,36 @@ class DashboardController extends Controller
             return $reading;
         });
 
-        $alerts = Alert::latest()
+        $latestAlerts = Alert::query();
+
+        if (
+            auth()->user()->role->name
+            !== 'SuperAdmin'
+        ) {
+
+            $latestAlerts->whereHas(
+
+                'user',
+
+                function ($q) {
+
+                    $q->where(
+
+                        'campus_id',
+
+                        auth()->user()->campus_id
+                    );
+                }
+            );
+        }
+
+        $latestAlerts = $latestAlerts
+            ->latest()
             ->take(5)
             ->get();
 
         // add human readable time
-        $alerts->transform(function ($alert) {
+        $latestAlerts->transform(function ($alert) {
 
             $alert->created_at_human =
                 $alert->created_at
@@ -389,7 +441,7 @@ class DashboardController extends Controller
                 $latestReadings,
 
             'alerts' =>
-                $alerts,
+                $latestAlerts,
         ]);
     }
 

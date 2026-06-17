@@ -6,6 +6,7 @@ use App\Models\Reading;
 use App\Models\Campus;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Helpers\CampusScope;
 
 class ReportController extends Controller
 {
@@ -37,6 +38,12 @@ class ReportController extends Controller
             'meter.building.campus',
             'meter.resourceType',
         ]);
+
+        $query = CampusScope::apply(
+            $query,
+            auth()->user(),
+            'meter.building'
+        );
 
         // campus filter
         if ($campusId) {
@@ -160,6 +167,12 @@ class ReportController extends Controller
             'meter.building.campus',
             'meter.resourceType',
         ]);
+
+        $query = CampusScope::apply(
+            $query,
+            auth()->user(),
+            'meter.building'
+        );
 
         $readings =
             $query->latest()->get();

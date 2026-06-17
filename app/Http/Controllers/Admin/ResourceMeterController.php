@@ -7,6 +7,7 @@ use App\Models\ResourceMeter;
 use App\Models\ResourceType;
 use App\Models\Building;
 use Illuminate\Http\Request;
+use App\Helpers\CampusScope;
 
 class ResourceMeterController extends Controller
 {
@@ -16,6 +17,11 @@ class ResourceMeterController extends Controller
             'building',
             'resourceType',
         ])->latest()->get();
+
+        $meters = CampusScope::apply(
+            $meters,
+            auth()->user()
+        );
 
         return view(
             'admin.resource-meters.index',
