@@ -38,49 +38,55 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 
-    // SuperAdmin + Admin only
-    Route::middleware('role:SuperAdmin,CampusAdmin')->group(function () {
+    // SuperAdmin only
+    Route::middleware('role:SuperAdmin')->group(function () {
 
-        // Manage Users page
-        Route::get('/users', [UserManagementController::class, 'index'])
-            ->name('users');
+        Route::get(
+            '/users',
+            [UserManagementController::class, 'index']
+        )->name('users');
 
-        // Create user
-        Route::post('/users', [UserManagementController::class, 'store'])
-        ->name('users.store');
+        Route::post(
+            '/users',
+            [UserManagementController::class, 'store']
+        )->name('users.store');
 
-        // Edit user
-        Route::get('/users/{user}/edit', [UserManagementController::class, 'edit'])
-        ->name('users.edit');
+        Route::get(
+            '/users/{user}/edit',
+            [UserManagementController::class, 'edit']
+        )->name('users.edit');
 
-        // Update user
-        Route::patch('/users/{user}', [UserManagementController::class, 'update'])
-        ->name('users.update');
+        Route::patch(
+            '/users/{user}',
+            [UserManagementController::class, 'update']
+        )->name('users.update');
 
-        // Campus CRUD
         Route::resource(
             'campuses',
             CampusController::class
         );
 
-        // Resource Meter CRUD
+        Route::resource(
+            'resource-types',
+            ResourceTypeController::class
+        );
+    });
+
+
+    // SuperAdmin + CampusAdmin
+    Route::middleware(
+        'role:SuperAdmin,CampusAdmin'
+    )->group(function () {
+
         Route::resource(
             'resource-meters',
             ResourceMeterController::class
         );
 
-        // Building CRUD
         Route::resource(
             'buildings',
             BuildingController::class
         );
-
-        // Resource Type CRUD
-        Route::resource(
-            'resource-types',
-            ResourceTypeController::class
-        );
-
     });
 
 

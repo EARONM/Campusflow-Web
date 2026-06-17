@@ -130,12 +130,12 @@ async function refreshDashboard()
                         whitespace-nowrap
                         font-semibold
 
-                        ${alert.status === 'resolved'
+                        ${alert.is_read
                             ? 'bg-green-500/20 text-green-300'
                             : 'bg-yellow-500/20 text-yellow-300'}
                     ">
 
-                        ${alert.status.toUpperCase()}
+                        ${alert.is_read ? 'RESOLVED' : 'ACTIVE'}
 
                     </span>
 
@@ -164,15 +164,10 @@ async function refreshDashboard()
                         rounded-full
                         font-semibold
 
-                        ${alert.severity === 'critical'
-                            ? 'bg-red-500/20 text-red-300'
-
-                            : alert.severity === 'warning'
-                                ? 'bg-yellow-500/20 text-yellow-300'
-                                : 'bg-blue-500/20 text-blue-300'}
+                        bg-blue-500/20 text-blue-300
                     ">
 
-                        ${(alert.severity ?? 'info').toUpperCase()}
+                        INFO
 
                     </span>
 

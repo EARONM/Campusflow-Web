@@ -33,11 +33,29 @@ class AuthenticatedSessionController extends Controller
             : 'username';
 
         if (Auth::attempt([
+
             $field => $request->login,
+
             'password' => $request->password,
+
         ], $request->boolean('remember'))) {
 
             $request->session()->regenerate();
+
+            // Mobile-only role
+            if (
+                Auth::user()->role->name
+                === 'FieldTechnician'
+            ) {
+
+                Auth::logout();
+
+                return back()->withErrors([
+
+                    'login' =>
+                        'Field Technicians must use the mobile application.'
+                ]);
+            }
 
             return redirect()->intended(
                 route('dashboard', absolute: false)

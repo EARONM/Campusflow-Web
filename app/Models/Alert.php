@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Alert extends Model
@@ -16,4 +17,11 @@ class Alert extends Model
         'resource_meter_id',
         'severity',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(
+            User::class
+        );
+    }
 }

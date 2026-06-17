@@ -298,76 +298,138 @@
 
             </div>
 
-            <!-- Filter -->
-            <div class="
-                bg-white
-                rounded-3xl
-                border
-                border-gray-100
-                shadow-sm
-                px-6
-                py-5
-            ">
+            <!-- Campus Filter / Campus Info -->
+            @if(auth()->user()->role?->name === 'SuperAdmin')
 
-                <p class="
-                    text-[11px]
-                    font-semibold
-                    text-gray-400
-                    uppercase
-                    tracking-wider
-                    mb-4
+                <div class="
+                    bg-white
+                    rounded-3xl
+                    border
+                    border-gray-100
+                    shadow-sm
+                    px-6
+                    py-5
                 ">
 
-                    Campus Filter
+                    <p class="
+                        text-[11px]
+                        font-semibold
+                        text-gray-400
+                        uppercase
+                        tracking-wider
+                        mb-4
+                    ">
+                        Campus Filter
+                    </p>
 
-                </p>
+                    @if(auth()->user()->role?->name === 'CampusAdmin')
 
-                <form method="GET">
+                        <div
+                            class="
+                                w-full
+                                border
+                                border-gray-200
+                                rounded-2xl
+                                px-4
+                                py-3
+                                text-sm
+                                bg-gray-50
+                                font-medium
+                            "
+                        >
+                            {{ auth()->user()->campus?->name }}
+                        </div>
 
-                    <select
-                        name="campus"
-                        onchange="this.form.submit()"
-                        class="
-                            w-full
-                            border
-                            border-gray-200
-                            rounded-2xl
-                            px-4
-                            py-3
-                            text-sm
-                            focus:outline-none
-                            focus:ring-2
-                            focus:ring-red-100
-                        "
-                    >
+                    @else
 
-                        <option value="">
-                            All Campuses
-                        </option>
+                        <form method="GET">
 
-                        @foreach($campuses as $campus)
-
-                            <option
-                                value="{{ $campus->id }}"
-                                {{ request('campus') == $campus->id ? 'selected' : '' }}
+                            <select
+                                name="campus"
+                                onchange="this.form.submit()"
+                                class="
+                                    w-full
+                                    border
+                                    border-gray-200
+                                    rounded-2xl
+                                    px-4
+                                    py-3
+                                    text-sm
+                                    focus:outline-none
+                                    focus:ring-2
+                                    focus:ring-red-100
+                                "
                             >
 
-                                {{ $campus->name }}
+                                <option value="">
+                                    All Campuses
+                                </option>
 
-                            </option>
+                                @foreach($campuses as $campus)
 
-                        @endforeach
+                                    <option
+                                        value="{{ $campus->id }}"
+                                        {{ request('campus') == $campus->id ? 'selected' : '' }}
+                                    >
+                                        {{ $campus->name }}
+                                    </option>
 
-                    </select>
+                                @endforeach
 
-                </form>
+                            </select>
+
+                        </form>
+
+                    @endif
+
+                </div>
+
+            @else
+
+                <div class="
+                    bg-white
+                    rounded-3xl
+                    border
+                    border-gray-100
+                    shadow-sm
+                    px-6
+                    py-5
+                ">
+
+                    <p class="
+                        text-[11px]
+                        font-semibold
+                        text-gray-400
+                        uppercase
+                        tracking-wider
+                        mb-4
+                    ">
+                        Assigned Campus
+                    </p>
+
+                    <div class="
+                        w-full
+                        border
+                        border-gray-200
+                        rounded-2xl
+                        px-4
+                        py-3
+                        text-sm
+                        font-medium
+                        text-gray-900
+                        bg-gray-50
+                    ">
+                        {{ auth()->user()->campus->name ?? 'No Campus Assigned' }}
+                    </div>
+
+                </div>
+
+            @endif
 
             </div>
 
-        </div>
-
-        <!-- CONTENT -->
-        <div class="grid grid-cols-12 gap-6">
+            <!-- CONTENT -->
+            <div class="grid grid-cols-12 gap-6">
 
             <!-- Chart -->
             <div class="
@@ -491,7 +553,7 @@
                             font-semibold
                         ">
 
-                            Top Consuming Meter
+                            Latest Meter
 
                         </p>
 
@@ -583,7 +645,6 @@
 
         <!-- Alerts -->
         <div
-            id="live-alerts"
             class="
                 col-span-8
                 bg-gradient-to-br
@@ -596,7 +657,8 @@
                 border-white/10
                 p-6
                 h-[520px]
-                overflow-y-auto
+                flex
+                flex-col
             "
         >
 
@@ -632,11 +694,15 @@
 
             </div>
 
-            <div class="
-                overflow-y-auto
-                pr-2
-                space-y-4
-            ">
+            <div
+                id="live-alerts"
+                class="
+                    flex-1
+                    overflow-y-auto
+                    pr-2
+                    space-y-4
+                "
+            >
 
                 @forelse($alerts as $alert)
 
@@ -689,12 +755,12 @@
                                 whitespace-nowrap
                                 font-semibold
 
-                                {{ $alert->status === 'resolved'
+                                {{ $alert->is_read
                                     ? 'bg-green-500/20 text-green-300'
                                     : 'bg-yellow-500/20 text-yellow-300' }}
                             ">
 
-                                {{ strtoupper($alert->status) }}
+                                {{ $alert->is_read ? 'RESOLVED' : 'ACTIVE' }}
 
                             </span>
 
@@ -723,21 +789,16 @@
                                 rounded-full
                                 font-semibold
 
-                                {{ $alert->severity === 'critical'
-                                    ? 'bg-red-500/20 text-red-300'
-
-                                    : ($alert->severity === 'warning'
-                                        ? 'bg-yellow-500/20 text-yellow-300'
-                                        : 'bg-blue-500/20 text-blue-300') }}
+                                bg-blue-500/20 text-blue-300
                             ">
 
-                                {{ strtoupper($alert->severity) }}
+                                INFO
 
                             </span>
 
                         </div>
 
-                        @if($alert->status === 'active')
+                        @if(!$alert->is_read)
 
                             <form
                                 action="{{ route('alerts.resolve', $alert) }}"
@@ -788,7 +849,6 @@
 
         <!-- Recent Activity -->
         <div
-            id="live-readings"
             class="
                 col-span-4
                 bg-white
@@ -798,7 +858,8 @@
                 shadow-sm
                 p-6
                 h-[520px]
-                overflow-y-auto
+                flex
+                flex-col
             "
         >
 
@@ -821,11 +882,15 @@
 
             </div>
 
-            <div class="
-                overflow-y-auto
-                pr-2
-                space-y-4
-            ">
+            <div
+                id="live-readings"
+                class="
+                    flex-1
+                    overflow-y-auto
+                    pr-2
+                    space-y-4
+                "
+            >
 
                 @forelse($latestReadings as $reading)
 
